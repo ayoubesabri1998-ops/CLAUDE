@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "tracks": 7,
+    "date": "29 September 2026",
+    "description": "Deep research on GitHub tools, Claude skills and MCP servers for After Effects, DaVinci Resolve, motion design, VFX, SFX and 2D→3D work, with licenses checked.",
+    "lede_html": "Open-source tools, Claude skills and MCP servers that add 2D→3D, motion design, VFX and SFX power to an After Effects or DaVinci Resolve workflow. Every entry was checked against its GitHub page or official docs, and every license was read with monetized channels in mind.",
+    "footer_html": "<p>Research date: 29 September 2026. Star counts and dates are approximate and change quickly. Entries marked “Not verified at source” come from press or search results only.</p><p>License labels are a guide, not legal advice. A monetized YouTube, TikTok or Instagram channel counts as commercial use. The license of the model you run applies even when the app around it is MIT or GPL.</p>"
+  },
+  "categories": [
+    {"key": "skills", "label": "Claude skills", "blurb": "Agent Skills (SKILL.md folders) you install into Claude Code so it knows how to do a job."},
+    {"key": "mcp", "label": "MCP servers", "blurb": "Connectors that let Claude drive an app: Blender, Resolve, After Effects, Premiere, ComfyUI, FFmpeg."},
+    {"key": "ae", "label": "After Effects", "blurb": "Free scripts, extensions, developer tools and 3D workflows for After Effects."},
+    {"key": "resolve", "label": "Resolve & Fusion", "blurb": "Free Fuses, macros, DCTLs, scripting tools and 3D workflows for DaVinci Resolve and Fusion."},
+    {"key": "depth", "label": "Depth maps", "blurb": "Models that turn an image or clip into a depth map, the base of most 2D→3D effects."},
+    {"key": "parallax", "label": "Parallax & 3D photo", "blurb": "Turn one photo or frame into a moving 3D parallax shot."},
+    {"key": "camera", "label": "AI camera moves", "blurb": "AI models that re-shoot a clip or a still with a new camera path: orbit, dolly, crane."},
+    {"key": "models", "label": "Image → 3D models", "blurb": "Make a textured 3D model (GLB) from one image, then use it in Blender or AE's 3D."},
+    {"key": "scenes", "label": "3D scenes & splats", "blurb": "Rebuild a real place in 3D from video (Gaussian splats) and fly a new camera through it."},
+    {"key": "tracking", "label": "Camera tracking", "blurb": "Solve the camera of real footage so 3D text and objects stick to it."},
+    {"key": "mocap", "label": "Motion capture", "blurb": "Copy a person's movement from a normal video onto a 3D character."},
+    {"key": "stereo", "label": "Stereo 3D & VR", "blurb": "Convert a finished edit to side-by-side 3D, VR180 or Vision Pro spatial video."},
+    {"key": "roto", "label": "Roto & cleanup", "blurb": "Masks, mattes, green-screen keys and object removal."},
+    {"key": "finish", "label": "Slow-mo & upscale", "blurb": "Frame interpolation for smooth slow motion, and AI upscaling."},
+    {"key": "vfx", "label": "VFX & simulation", "blurb": "Relighting, element generation, particles, fire and smoke."},
+    {"key": "sfx", "label": "SFX & beat sync", "blurb": "AI sound effects synced to picture, beat detection and stem separation."},
+    {"key": "editors", "label": "Open-source apps", "blurb": "Free editors and motion-graphics apps you can script."}
+  ]
+}
