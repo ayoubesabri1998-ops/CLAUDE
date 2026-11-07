@@ -24,7 +24,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
 #stage{position:relative;width:1080px;height:1920px;overflow:hidden;color:var(--ink);font-family:Cairo,sans-serif;
-  background-color:#211a15;background-image:var(--fiber),var(--noise),radial-gradient(ellipse 90% 60% at 50% 45%,#3a2e25 0%,#211a15 60%,#120e0b 100%)}
+  background:radial-gradient(ellipse 90% 60% at 50% 45%,#2a211b 0%,#16110e 55%,#0a0807 100%)}
 .scene{position:absolute;inset:0;display:none}
 .abs{position:absolute}
 .row{position:absolute;left:0;right:0;display:flex;justify-content:center}
@@ -45,9 +45,9 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
 .type{font-family:Type,Cairo,monospace}
 
 /* overlays */
-#grain{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:.3}
-#vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.7) 100%)}
-#lightleak{position:absolute;width:1400px;height:1400px;border-radius:50%;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(circle,rgba(255,170,90,.12),transparent 60%)}
+#grain{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:.35}
+#vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.65) 100%)}
+#lightleak{position:absolute;width:1400px;height:1400px;border-radius:50%;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(circle,rgba(208,24,47,.22),transparent 60%)}
 #brand{top:56px;right:56px}
 #brand .paper{font-family:Kufi;font-weight:500;font-size:28px;padding:6px 22px 12px}
 #progress{position:absolute;bottom:0;right:0;height:8px;background:var(--red)}
