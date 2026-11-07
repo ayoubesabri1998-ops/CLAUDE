@@ -53,12 +53,33 @@ def tick(at, gain=.12):
     s = np.sin(2 * np.pi * 2400 * tt) * np.exp(-tt * 300) * gain
     i = int(at * SR); L[i:i + n] += s; R[i:i + n] += s
 
+def paper(at, gain=.5):
+    # rustle (band-limited noise burst) + soft landing thump
+    n = int(.22 * SR); tt = np.arange(n) / SR
+    x = rng.standard_normal(n)
+    x = x - lowpass(x, 1500)                     # keep the crisp highs
+    x *= np.exp(-tt * 22) * (1 - np.exp(-tt * 400)) * gain
+    th = np.sin(2 * np.pi * 90 * tt) * np.exp(-tt * 40) * gain * .8
+    i = int(at * SR); m = min(n, N - i)
+    L[i:i + m] += (x + th)[:m]; R[i:i + m] += (x * .8 + th)[:m]
+
+def stampthud(at, gain=1.0):
+    n = int(.4 * SR); tt = np.arange(n) / SR
+    s = (np.sin(2 * np.pi * 70 * tt) * np.exp(-tt * 18) + rng.standard_normal(n) * np.exp(-tt * 90) * .5) * gain
+    i = int(at * SR); m = min(n, N - i)
+    L[i:i + m] += s[:m]; R[i:i + m] += s[:m]
+
+drops = [.15, .4, 1.9, 3.0, 4.55, 5.1, 5.35, 5.75, 7.4, 10.0, 10.4, 11.0, 12.8, 14.6, 16.4,
+         19.05, 19.55, 19.8, 20.05, 20.3, 21.6, 22.2, 22.8, 23.3, 25.0, 30.2, 32.0, 34.7,
+         37.05, 37.9, 38.4, 38.95]
+for d in drops: paper(d + .35 if d not in (1.9, 5.35, 5.75, 10.0, 19.05, 22.2, 30.2, 37.9) else d + .1)
+for k in range(6): paper(32.4 + k * .33 + .1, .3)   # calendar sheets tearing
+for s_ in [6.8, 29.2, 37.75]: stampthud(s_ + .2)
 boom(0.0, .8)
 for c in [4.5, 10.0, 19.0, 25.0, 32.0, 37.0]:
     whoosh(c); boom(c, .9)
-boom(29.2, 1.3)                                       # stamp slam
+boom(29.4, 1.1)                                       # stamp slam
 for k in range(18): tick(.5 + k * .08)                # date digits rolling
-for a in [11.0, 12.8, 14.6, 16.4]: tick(a, .25)       # timeline dots
 for k in range(30): tick(32.4 + 2.0 * (k / 30) ** 2, .1)  # counter
 
 # 3) simple reverb (feedback delays) + master

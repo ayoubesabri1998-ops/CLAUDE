@@ -14,226 +14,322 @@
 @font-face{font-family:Cairo;font-weight:700;src:url(node_modules/@fontsource/cairo/files/cairo-latin-700-normal.woff2);unicode-range:U+0000-00FF}
 @font-face{font-family:Amiri;font-weight:700;src:url(node_modules/@fontsource/amiri/files/amiri-arabic-700-normal.woff2)}
 @font-face{font-family:Amiri;font-weight:400;src:url(node_modules/@fontsource/amiri/files/amiri-arabic-400-normal.woff2)}
+@font-face{font-family:Type;font-weight:400;src:url(node_modules/@fontsource/special-elite/files/special-elite-latin-400-normal.woff2);unicode-range:U+0000-00FF}
 
-:root{--bg:#100d0b;--cream:#efe6d2;--red:#d0182f;--gold:#cfa75e;--dim:#8a7f6e}
+:root{
+  --ink:#1d1813;--red:#b3142a;--cream:#efe5cc;--news:#ddd3bd;--gold:#cfa75e;
+  --noise:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' seed='3'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .27  0 0 0 0 .16  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  --fiber:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.012 .09' numOctaves='2' seed='9'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .22  0 0 0 0 .12  0 0 0 .35 -.05'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
+}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
-#stage{position:relative;width:1080px;height:1920px;overflow:hidden;color:var(--cream);font-family:Cairo,sans-serif;
-  background:radial-gradient(ellipse 90% 60% at 50% 45%,#2a211b 0%,#16110e 55%,#0a0807 100%)}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;color:var(--ink);font-family:Cairo,sans-serif;
+  background-color:#211a15;background-image:var(--fiber),var(--noise),radial-gradient(ellipse 90% 60% at 50% 45%,#3a2e25 0%,#211a15 60%,#120e0b 100%)}
 .scene{position:absolute;inset:0;display:none}
 .abs{position:absolute}
-.c{left:0;right:0;text-align:center}
+.row{position:absolute;left:0;right:0;display:flex;justify-content:center}
 .w{display:inline-block;white-space:pre}
-.kufi{font-family:Kufi}
-.amiri{font-family:Amiri}
 .ltr{direction:ltr;unicode-bidi:isolate}
 
+/* ---------- paper system ---------- */
+.shd{position:relative;filter:drop-shadow(0 14px 16px rgba(0,0,0,.55)) drop-shadow(0 2px 2px rgba(0,0,0,.45))}
+.paper{position:relative;background-color:var(--cream);color:var(--ink);
+  background-image:var(--noise),var(--fiber),radial-gradient(ellipse at 25% 15%,rgba(255,255,255,.35),transparent 55%),radial-gradient(ellipse at 85% 95%,rgba(110,75,35,.22),transparent 60%)}
+.paper.news{background-color:var(--news)}
+.paper.red{background-color:var(--red);color:var(--cream)}
+.paper.strip{padding:14px 46px 22px;white-space:nowrap}
+.ink{filter:url(#ink)}
+.tape{position:absolute;width:150px;height:44px;background:rgba(232,222,186,.62);box-shadow:0 1px 3px rgba(0,0,0,.25);
+  clip-path:polygon(0 8%,4% 0,8% 10%,12% 0,100% 0,96% 12%,100% 25%,96% 40%,100% 55%,96% 70%,100% 85%,97% 100%,0 100%,4% 85%,0 70%,4% 55%,0 40%,4% 25%)}
+.stamp{color:var(--red);border:7px solid var(--red);border-radius:14px;font-family:Kufi;font-weight:700;padding:6px 34px 14px;filter:url(#stampf);mix-blend-mode:multiply;white-space:nowrap}
+.type{font-family:Type,Cairo,monospace}
+
 /* overlays */
-#grain{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:.35}
-#vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.65) 100%)}
-#lightleak{position:absolute;width:1400px;height:1400px;border-radius:50%;pointer-events:none;mix-blend-mode:screen;
-  background:radial-gradient(circle,rgba(208,24,47,.22),transparent 60%)}
-#brand{position:absolute;top:70px;right:70px;font-family:Kufi;font-weight:500;font-size:30px;color:var(--cream);opacity:.75;display:flex;align-items:center;gap:14px}
-#brand i{display:inline-block;width:14px;height:14px;background:var(--red);border-radius:50%}
+#grain{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:.3}
+#vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.7) 100%)}
+#lightleak{position:absolute;width:1400px;height:1400px;border-radius:50%;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(circle,rgba(255,170,90,.12),transparent 60%)}
+#brand{top:56px;right:56px}
+#brand .paper{font-family:Kufi;font-weight:500;font-size:28px;padding:6px 22px 12px}
 #progress{position:absolute;bottom:0;right:0;height:8px;background:var(--red)}
 #flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
 
 /* S1 */
-#s1line{top:930px;height:4px;background:var(--red);left:50%}
-#s1city{top:760px;font-size:44px;letter-spacing:18px;color:var(--gold);font-weight:700}
-#s1date{top:820px;font-size:150px;font-weight:700;display:flex;justify-content:center;gap:10px;line-height:1}
-.dg{display:inline-block;height:150px;overflow:hidden;vertical-align:top}
-.dg span{display:block;height:150px;line-height:150px}
-.sep{color:var(--red);padding:0 10px}
-#s1a{top:1040px;font-size:76px;font-family:Kufi;font-weight:500}
-#s1b{top:1150px;font-size:110px;font-family:Kufi;font-weight:700;color:var(--red)}
+#s1clip{top:650px}
+#s1clip .paper{padding:26px 60px 34px;text-align:center}
+#s1city{font-size:40px;letter-spacing:12px;color:var(--red)}
+#s1date{font-family:Kufi;font-size:116px;font-weight:700;display:flex;justify-content:center;gap:6px;line-height:1;margin-top:8px}
+.dg{display:inline-block;height:128px;overflow:hidden;vertical-align:top}
+.dg span{display:block;height:128px;line-height:128px}
+.sep{color:var(--red);padding:0 4px;line-height:128px}
+#s1a{top:1090px}
+#s1a .paper{font-family:Kufi;font-weight:500;font-size:72px}
+#s1b{top:1260px}
+#s1b .paper{font-family:Kufi;font-weight:700;font-size:110px;padding:6px 60px 26px}
 
 /* S2 */
-#s2frame{left:290px;top:300px;width:500px;height:500px}
-#s2tag{top:880px;font-size:34px;color:var(--gold);letter-spacing:4px}
-#s2n1,#s2n2{font-family:Kufi;font-weight:700;line-height:1.1}
-#s2n1{top:930px;font-size:170px}
-#s2n2{top:1120px;font-size:200px;color:var(--cream)}
-#s2years{top:1400px;font-size:76px;font-weight:700}
-#s2years b{color:var(--red)}
-#s2bar{top:1360px;height:3px;background:var(--gold);left:50%}
-#s2label{top:1530px;font-size:44px;color:var(--dim)}
+#s2clip{top:150px}
+#s2clip .paper{width:540px;padding:26px 26px 18px}
+#s2clip svg{display:block;width:488px;height:500px;border:3px solid var(--ink)}
+#s2clip .cap{font-size:26px;font-weight:700;margin-top:10px;display:flex;justify-content:space-between}
+#s2tag{top:850px}
+#s2tag .paper{font-family:Kufi;font-weight:500;font-size:32px;padding:6px 26px 12px}
+#s2n1{top:920px}
+#s2n1 .paper{font-family:Kufi;font-weight:700;font-size:150px;padding:0 60px 30px;line-height:1.2}
+#s2n2{top:1130px}
+#s2n2 .paper{font-family:Kufi;font-weight:700;font-size:170px;padding:0 60px 34px;line-height:1.2}
+#s2stamp{top:1440px}
+#s2stamp .stamp{font-size:80px}
+#s2label{top:1610px}
+#s2label .paper{font-size:40px;font-weight:700;padding:8px 34px 14px}
 
 /* S3 */
-#s3title{top:240px;right:110px;font-family:Kufi;font-weight:700;font-size:96px}
-#s3title small{display:block;font-family:Cairo;font-size:34px;color:var(--gold);font-weight:400;letter-spacing:3px}
-#s3rail{right:170px;top:470px;width:4px;background:linear-gradient(var(--red),var(--gold))}
-.ti{position:absolute;right:140px;width:900px;padding-right:110px}
-.ti .dot{position:absolute;right:16px;top:30px;width:32px;height:32px;border-radius:50%;background:var(--bg);border:5px solid var(--red)}
-.ti .yr{font-family:Kufi;font-weight:700;font-size:110px;color:var(--gold);line-height:1}
-.ti .tx{white-space:nowrap;font-size:46px;font-weight:700;line-height:1.35;margin-top:10px}
+#s3head{top:150px}
+#s3head .paper{font-family:Kufi;font-weight:700;font-size:84px;padding:0 54px 24px}
+#s3kick{top:120px}
+#s3kick .paper{font-family:Kufi;font-weight:500;font-size:30px;padding:4px 20px 10px}
+.card{position:absolute;width:700px}
+.card .paper{padding:46px 44px 34px}
+.card .yr{font-family:Kufi;font-weight:700;font-size:100px;color:var(--red);line-height:1}
+.card .tx{font-size:44px;font-weight:700;line-height:1.35;margin-top:8px}
+#s3svg{left:0;top:0;pointer-events:none}
 
 /* S4 */
-#s4head{top:230px;font-family:Kufi;font-weight:700;font-size:100px}
-#s4sub{top:370px;font-size:40px;color:var(--gold)}
+#s4head{top:170px}
+#s4head .paper{font-family:Kufi;font-weight:700;font-size:92px;padding:0 54px 26px}
+#s4sub{top:345px}
+#s4sub .paper{font-size:36px;font-weight:700;padding:6px 30px 12px}
+.disc{position:absolute;width:200px;height:200px}
+.disc .paper{width:200px;height:200px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:Kufi;font-weight:700;font-size:38px;line-height:1.15}
+.disc .paper::after{content:"";position:absolute;inset:16px;border-radius:50%;border:4px dashed var(--red);opacity:.7}
+#s4core{left:410px;top:770px;width:260px;height:260px}
+#s4core .paper{width:260px;height:260px;font-size:160px;color:var(--red);display:flex;align-items:center;justify-content:center;font-family:Kufi;font-weight:700;padding-bottom:30px}
 #s4svg{left:0;top:0}
-.lbl{font-family:Kufi;font-weight:500;font-size:46px;fill:var(--cream)}
-#s4t1{top:1330px;font-family:Kufi;font-weight:700;font-size:96px}
-#s4t2{top:1470px;font-size:56px;color:var(--gold);font-weight:700}
-#s4t3{top:1570px;font-size:46px}
+#s4t1{top:1340px}
+#s4t1 .paper{font-family:Kufi;font-weight:700;font-size:86px;padding:0 50px 24px}
+#s4t2{top:1500px}
+#s4t2 .paper{font-size:46px;font-weight:700;padding:6px 34px 12px}
+#s4t3{top:1610px}
+#s4t3 .paper{font-size:40px;font-weight:700;padding:6px 30px 12px}
 
-/* S5 */
-#s5svg{left:0;top:0}
-#s5top{top:230px;font-size:46px;color:var(--gold);font-weight:700;letter-spacing:2px}
-#s5sign{left:290px;top:520px;width:500px;height:120px;border:4px solid #ffd9a0;border-radius:8px;display:flex;align-items:center;justify-content:center;
-  font-family:Cairo,sans-serif;font-weight:700;font-size:52px;letter-spacing:6px;white-space:nowrap;color:#ffe7c2;direction:ltr}
-#s5a{top:1240px;font-size:66px;font-family:Kufi;font-weight:500}
-#s5b{top:1350px;font-size:96px;font-family:Kufi;font-weight:700}
-#s5hl{position:absolute;top:1372px;height:110px;background:var(--red);left:50%;z-index:-1}
-#s5stamp{left:240px;top:820px;width:600px;padding:20px 0;border:8px solid var(--red);color:var(--red);font-family:Kufi;font-weight:700;font-size:96px;text-align:center;border-radius:12px}
-#s5c{top:1560px;font-size:54px;font-weight:700;color:var(--cream)}
+/* S5 newspaper */
+#s5page{left:50px;top:150px;width:980px}
+#s5page .paper{height:1600px;padding:34px 40px}
+.mast{text-align:center;border-top:8px solid var(--ink);border-bottom:3px double var(--ink);padding-top:2px}
+.mast h1{font-family:Amiri;font-weight:700;font-size:120px;line-height:1.15}
+.mast .sub{display:flex;justify-content:space-between;border-top:2px solid var(--ink);font-size:26px;font-weight:700;padding:4px 6px 6px}
+.kicker{font-family:Kufi;font-weight:700;font-size:50px;color:var(--red);margin-top:18px;text-align:center}
+.headline{font-family:Amiri;font-weight:700;font-size:96px;line-height:1.15;text-align:center;margin-top:2px}
+.photo{position:relative;margin-top:18px;border:3px solid var(--ink)}
+.photo svg{display:block;width:100%;height:520px}
+.caption{font-size:27px;font-weight:700;margin-top:8px;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.cols{display:flex;gap:30px;margin-top:20px;height:330px}
+.col{flex:1;background:repeating-linear-gradient(to bottom,rgba(29,24,19,.5) 0 9px,transparent 9px 21px)}
+.col b{display:block;height:24px;background:var(--ink);width:70%;margin:0 0 18px auto;opacity:.85}
+#s5stamp{left:150px;top:880px}
+#s5stamp .stamp{font-size:110px;border-width:10px}
+#s5c{top:1650px}
+#s5c .paper{font-family:Kufi;font-weight:700;font-size:62px;padding:4px 50px 22px}
 
-/* S6 */
-#s6a{top:520px;font-size:70px;font-family:Kufi;font-weight:500;color:var(--dim)}
-#s6num{top:600px;font-size:480px;font-family:Kufi;font-weight:700;color:var(--gold);line-height:1.1}
-#s6b{top:1150px;font-size:110px;font-family:Kufi;font-weight:700}
-#s6c{top:1340px;font-size:70px;font-family:Amiri;font-weight:700;color:var(--cream)}
-#s6line{top:1310px;height:3px;background:var(--red);left:50%}
+/* S6 calendar */
+#s6cal{left:250px;top:300px;width:580px}
+#s6cal .top{height:140px;background:var(--red);color:var(--cream);font-family:Kufi;font-weight:700;font-size:52px;display:flex;align-items:center;justify-content:center;padding-bottom:12px;position:relative}
+#s6cal .holes{position:absolute;top:-22px;left:0;right:0;display:flex;justify-content:space-around;padding:0 110px}
+#s6cal .holes i{display:block;width:26px;height:64px;border-radius:13px;background:linear-gradient(90deg,#777,#ddd,#777);box-shadow:0 3px 4px rgba(0,0,0,.5)}
+#s6cal .sheet{position:relative;height:640px;text-align:center}
+#s6num{font-family:Kufi;font-weight:700;font-size:380px;line-height:1.1;padding-top:10px}
+#s6yr{font-family:Kufi;font-weight:700;font-size:96px;color:var(--red);margin-top:-30px}
+#s6peel{position:absolute;left:0;right:0;top:140px;height:640px;transform-origin:50% 0;backface-visibility:hidden}
+#s6stack{position:absolute;left:250px;top:300px;width:580px;height:780px}
+#s6stack i{position:absolute;inset:0;background:#d8ccb0}
+#s6c{top:1250px}
+#s6c .paper{font-family:Amiri;font-weight:700;font-size:76px;padding:0 50px 20px}
 
 /* S7 */
-#s7ring{left:290px;top:430px;width:500px;height:500px;border-radius:50%;border:3px solid var(--red)}
-#s7ring2{left:340px;top:480px;width:400px;height:400px;border-radius:50%;border:2px dashed var(--gold)}
-#s7mono{left:390px;top:530px;width:300px;height:300px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;
-  font-family:Kufi;font-weight:700;font-size:150px;color:var(--cream)}
-#s7a{top:1030px;font-family:Kufi;font-weight:700;font-size:120px}
-#s7b{top:1200px;font-size:56px;color:var(--gold);font-weight:700}
-#s7btn{left:340px;top:1380px;width:400px;height:120px;border-radius:60px;background:var(--cream);color:var(--bg);display:flex;align-items:center;justify-content:center;
-  font-family:Kufi;font-weight:700;font-size:56px}
-#s7c{top:1560px;font-size:40px;color:var(--dim)}
+#s7seal{left:330px;top:360px;width:420px;height:420px}
+#s7seal .paper{width:420px;height:420px;display:flex;align-items:center;justify-content:center}
+#s7seal .ring{position:absolute;inset:34px;border-radius:50%;border:8px solid var(--red);filter:url(#stampf);mix-blend-mode:multiply}
+#s7seal .ring2{position:absolute;inset:60px;border-radius:50%;border:3px dashed var(--red);filter:url(#stampf);mix-blend-mode:multiply}
+#s7seal .m{font-family:Kufi;font-weight:700;font-size:190px;color:var(--red);filter:url(#stampf);mix-blend-mode:multiply;padding-bottom:40px}
+#s7a{top:900px}
+#s7a .paper{font-family:Kufi;font-weight:700;font-size:112px;padding:0 54px 28px}
+#s7b{top:1110px}
+#s7b .paper{font-size:50px;font-weight:700;padding:6px 36px 14px}
+#s7btn{top:1290px}
+#s7btn .paper{font-family:Kufi;font-weight:700;font-size:64px;padding:6px 80px 24px}
+#s7c{top:1500px;color:var(--cream);font-size:38px;opacity:.8}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="ink" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5"/></filter>
+  <filter id="stampf" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="5" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.9 1.75" result="m"/>
+    <feComposite in="SourceGraphic" in2="m" operator="in" result="s"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="8" result="n2"/>
+    <feDisplacementMap in="s" in2="n2" scale="7"/>
+  </filter>
+  <defs>
+    <pattern id="d1" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="1.5" fill="#1d1813"/></pattern>
+    <pattern id="d2" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="2.8" fill="#1d1813"/></pattern>
+    <pattern id="d3" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="4.1" fill="#1d1813"/></pattern>
+    <radialGradient id="facelight" cx="50%" cy="38%" r="40%"><stop offset="0" stop-color="#ddd3bd" stop-opacity=".85"/><stop offset="1" stop-color="#ddd3bd" stop-opacity="0"/></radialGradient>
+  </defs>
+</svg>
+
 <div id="stage">
   <div id="lightleak"></div>
 
   <!-- S1: hook -->
   <div class="scene" id="S1">
-    <div class="abs c" id="s1city">PARIS · باريس</div>
-    <div class="abs c ltr" id="s1date">
-      <span class="dg" data-v="2"></span><span class="dg" data-v="9"></span><span class="sep">·</span>
-      <span class="dg" data-v="1"></span><span class="dg" data-v="0"></span><span class="sep">·</span>
-      <span class="dg" data-v="1"></span><span class="dg" data-v="9"></span><span class="dg" data-v="6"></span><span class="dg" data-v="5"></span>
-    </div>
-    <div class="abs" id="s1line"></div>
-    <div class="abs c" id="s1a"><span class="w">رجلٌ </span><span class="w">خرج </span><span class="w">إلى </span><span class="w">موعد…</span></div>
-    <div class="abs c" id="s1b"><span class="w">ولم </span><span class="w">يَعُد.</span></div>
+    <div class="row" id="s1clip"><div class="shd"><div class="paper news torn" data-seed="1" data-edges="tb">
+      <div id="s1city" class="type ink">PARIS · <span style="font-family:Kufi;letter-spacing:0">باريس</span></div>
+      <div id="s1date" class="ltr ink">
+        <span class="dg" data-v="2"></span><span class="dg" data-v="9"></span><span class="sep">·</span>
+        <span class="dg" data-v="1"></span><span class="dg" data-v="0"></span><span class="sep">·</span>
+        <span class="dg" data-v="1"></span><span class="dg" data-v="9"></span><span class="dg" data-v="6"></span><span class="dg" data-v="5"></span>
+      </div>
+    </div></div></div>
+    <div class="row" id="s1a"><div class="shd"><div class="paper strip torn ink" data-seed="2" data-edges="tb"><span class="w">رجلٌ </span><span class="w">خرج </span><span class="w">إلى </span><span class="w">موعد…</span></div></div></div>
+    <div class="row" id="s1b"><div class="shd"><div class="paper red strip torn ink" data-seed="3" data-edges="tblr">ولم يَعُد.</div></div></div>
   </div>
 
   <!-- S2: title -->
   <div class="scene" id="S2">
-    <svg class="abs" id="s2frame" viewBox="0 0 500 500">
-      <defs>
-        <pattern id="ht" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="7" cy="7" r="3.4" fill="#cfa75e"/></pattern>
-        <clipPath id="cc"><circle cx="250" cy="250" r="200"/></clipPath>
-      </defs>
-      <circle id="s2ring" cx="250" cy="250" r="236" fill="none" stroke="#d0182f" stroke-width="4" stroke-dasharray="12 10"/>
-      <circle cx="250" cy="250" r="200" fill="#1d1612"/>
-      <g clip-path="url(#cc)" id="s2sil">
-        <ellipse cx="250" cy="210" rx="78" ry="96" fill="url(#ht)"/>
-        <path d="M70 470 C90 340 170 310 250 310 C330 310 410 340 430 470 Z" fill="url(#ht)"/>
-      </g>
-      <text x="250" y="440" text-anchor="middle" font-family="Cairo" font-size="22" fill="#8a7f6e">[ صورة أرشيفية هنا ]</text>
-    </svg>
-    <div class="abs c" id="s2tag">ذاكرة اتحادية · الحلقة 01</div>
-    <div class="abs c" id="s2n1">المهدي</div>
-    <div class="abs c" id="s2n2">بن بركة</div>
-    <div class="abs" id="s2bar"></div>
-    <div class="abs c ltr" id="s2years">1920 — 1965 <b>?</b></div>
-    <div class="abs c" id="s2label">زعيم المعارضة المغربية</div>
+    <div class="row" id="s2clip"><div class="shd">
+      <div class="paper news torn" data-seed="4" data-amp="9">
+        <svg viewBox="0 0 488 500">
+          <rect width="488" height="500" fill="url(#d1)"/>
+          <g id="s2sil">
+            <path d="M24 520 C40 380 140 340 244 340 C348 340 448 380 464 520 Z" fill="url(#d3)"/>
+            <path d="M200 330 L288 330 L276 370 L212 370 Z" fill="url(#d2)"/>
+            <ellipse cx="244" cy="220" rx="92" ry="116" fill="url(#d3)"/>
+            <ellipse cx="244" cy="220" rx="92" ry="116" fill="url(#facelight)"/>
+            <path d="M244 340 L214 420 L244 520 L274 420 Z" fill="#ddd3bd" opacity=".75"/>
+          </g>
+        </svg>
+        <div class="cap ink"><span>المهدي بن بركة</span><span style="opacity:.7">[ صورة أرشيفية ]</span></div>
+      </div>
+      <div class="tape" style="top:-18px;right:-40px;transform:rotate(28deg)"></div>
+      <div class="tape" style="top:-18px;left:-40px;transform:rotate(-30deg)"></div>
+    </div></div>
+    <div class="row" id="s2tag"><div class="shd"><div class="paper red torn" data-seed="5" data-amp="4">ذاكرة اتحادية · الحلقة 01</div></div></div>
+    <div class="row" id="s2n1"><div class="shd"><div class="paper strip torn ink" data-seed="6" data-edges="tb">المهدي</div></div></div>
+    <div class="row" id="s2n2"><div class="shd"><div class="paper strip torn ink" data-seed="7" data-edges="tb">بن بركة</div></div></div>
+    <div class="row" id="s2stamp"><div class="stamp ltr">1920 — 1965 ?</div></div>
+    <div class="row" id="s2label"><div class="shd"><div class="paper news torn ink" data-seed="8" data-amp="5">زعيم المعارضة المغربية</div></div></div>
   </div>
 
-  <!-- S3: timeline -->
+  <!-- S3: clippings on a board, joined by red thread -->
   <div class="scene" id="S3">
-    <div class="abs" id="s3title"><small>المسار</small>من الرباط إلى العالم</div>
-    <div class="abs" id="s3rail"></div>
-    <div class="ti" style="top:500px"><div class="dot"></div><div class="yr">1920</div><div class="tx">وُلد في مدينة الرباط</div></div>
-    <div class="ti" style="top:830px"><div class="dot"></div><div class="yr">1944</div><div class="tx">من موقّعي وثيقة المطالبة بالاستقلال</div></div>
-    <div class="ti" style="top:1160px"><div class="dot"></div><div class="yr">1956</div><div class="tx">رئيس المجلس الوطني الاستشاري</div></div>
-    <div class="ti" style="top:1490px"><div class="dot"></div><div class="yr">1959</div><div class="tx">مؤسّس الاتحاد الوطني للقوات الشعبية</div></div>
+    <div class="row" id="s3head"><div class="shd"><div class="paper strip torn ink" data-seed="9" data-edges="tb">من الرباط إلى العالم</div></div></div>
+    <div class="row" id="s3kick"><div class="shd"><div class="paper red torn" data-seed="10" data-amp="4">المسار</div></div></div>
+    <div class="card" id="c1" style="right:70px;top:420px"><div class="shd"><div class="paper news torn" data-seed="11"><div class="yr ink" data-y="1920">1920</div><div class="tx ink">وُلد في مدينة الرباط</div></div></div></div>
+    <div class="card" id="c2" style="left:70px;top:760px"><div class="shd"><div class="paper torn" data-seed="12"><div class="yr ink" data-y="1944">1944</div><div class="tx ink">من موقّعي وثيقة المطالبة بالاستقلال</div></div></div></div>
+    <div class="card" id="c3" style="right:70px;top:1110px"><div class="shd"><div class="paper news torn" data-seed="13"><div class="yr ink" data-y="1956">1956</div><div class="tx ink">رئيس المجلس الوطني الاستشاري</div></div></div></div>
+    <div class="card" id="c4" style="left:70px;top:1450px"><div class="shd"><div class="paper torn" data-seed="14"><div class="yr ink" data-y="1959">1959</div><div class="tx ink">مؤسّس الاتحاد الوطني للقوات الشعبية</div></div></div></div>
+    <svg class="abs" id="s3svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+      <g fill="none" stroke="#b3142a" stroke-width="5" stroke-linecap="round" style="filter:drop-shadow(0 6px 4px rgba(0,0,0,.5))">
+        <path id="th1" d="M660 445 Q 520 560 420 785"/>
+        <path id="th2" d="M420 785 Q 560 920 660 1135"/>
+        <path id="th3" d="M660 1135 Q 520 1260 420 1475"/>
+      </g>
+      <g id="pins" style="filter:drop-shadow(0 5px 3px rgba(0,0,0,.6))">
+        <g id="p1" transform="translate(660 445)"><circle r="18" fill="#b3142a"/><circle cx="-5" cy="-5" r="5" fill="#ff8a8a"/></g>
+        <g id="p2" transform="translate(420 785)"><circle r="18" fill="#b3142a"/><circle cx="-5" cy="-5" r="5" fill="#ff8a8a"/></g>
+        <g id="p3" transform="translate(660 1135)"><circle r="18" fill="#b3142a"/><circle cx="-5" cy="-5" r="5" fill="#ff8a8a"/></g>
+        <g id="p4" transform="translate(420 1475)"><circle r="18" fill="#b3142a"/><circle cx="-5" cy="-5" r="5" fill="#ff8a8a"/></g>
+      </g>
+    </svg>
   </div>
 
-  <!-- S4: tricontinental -->
+  <!-- S4: tricontinental, paper discs + thread -->
   <div class="scene" id="S4">
     <svg class="abs" id="s4svg" width="1080" height="1920" viewBox="0 0 1080 1920">
-      <g id="s4lines" stroke="#cfa75e" stroke-width="4" fill="none">
-        <path id="l1" d="M840 650 Q 720 720 540 900"/>
-        <path id="l2" d="M240 650 Q 360 720 540 900"/>
+      <g fill="none" stroke="#b3142a" stroke-width="5" stroke-linecap="round" style="filter:drop-shadow(0 6px 4px rgba(0,0,0,.5))">
+        <path id="l1" d="M840 640 Q 720 720 540 900"/>
+        <path id="l2" d="M240 640 Q 360 720 540 900"/>
         <path id="l3" d="M540 1180 Q 500 1040 540 900"/>
       </g>
-      <g id="s4nodes">
-        <g id="n1" transform="translate(840 650)"><circle r="40" fill="none" stroke="#d0182f" stroke-width="4"/><circle r="16" fill="#d0182f"/></g>
-        <g id="n2" transform="translate(240 650)"><circle r="40" fill="none" stroke="#d0182f" stroke-width="4"/><circle r="16" fill="#d0182f"/></g>
-        <g id="n3" transform="translate(540 1180)"><circle r="40" fill="none" stroke="#d0182f" stroke-width="4"/><circle r="16" fill="#d0182f"/></g>
-      </g>
-      <text id="tl1" class="lbl" x="840" y="580" text-anchor="middle">آسيا</text>
-      <text id="tl2" class="lbl" x="240" y="580" text-anchor="middle">أمريكا اللاتينية</text>
-      <text id="tl3" class="lbl" x="540" y="1270" text-anchor="middle">إفريقيا</text>
-      <g id="s4core" transform="translate(540 900)">
-        <circle id="s4pulse" r="90" fill="none" stroke="#efe6d2" stroke-width="3"/>
-        <circle r="70" fill="#efe6d2"/>
-        <text y="22" text-anchor="middle" font-family="Kufi" font-weight="700" font-size="64" fill="#100d0b">3</text>
-        <g id="s4orbit"><circle cx="120" cy="0" r="9" fill="#cfa75e"/><circle cx="-120" cy="0" r="9" fill="#d0182f"/></g>
-      </g>
+      <circle id="s4pulse" cx="540" cy="900" r="150" fill="none" stroke="#efe5cc" stroke-width="3" stroke-dasharray="10 12"/>
     </svg>
-    <div class="abs c" id="s4head">صوت العالم الثالث</div>
-    <div class="abs c" id="s4sub">آسيا · إفريقيا · أمريكا اللاتينية</div>
-    <div class="abs c" id="s4t1">مؤتمر القارات الثلاث</div>
-    <div class="abs c" id="s4t2">هافانا · يناير 1966</div>
-    <div class="abs c" id="s4t3">ترأّس بن بركة لجنته التحضيرية</div>
+    <div class="disc" id="n1" style="left:740px;top:540px"><div class="shd"><div class="paper torn" data-circle="1" data-seed="21">آسيا</div></div></div>
+    <div class="disc" id="n2" style="left:140px;top:540px"><div class="shd"><div class="paper news torn" data-circle="1" data-seed="22">أمريكا<br>اللاتينية</div></div></div>
+    <div class="disc" id="n3" style="left:440px;top:1080px"><div class="shd"><div class="paper torn" data-circle="1" data-seed="23">إفريقيا</div></div></div>
+    <div class="disc" id="s4core"><div class="shd"><div class="paper news torn ink" data-circle="1" data-seed="24">3</div></div></div>
+    <div class="row" id="s4head"><div class="shd"><div class="paper strip torn ink" data-seed="25" data-edges="tb">صوت العالم الثالث</div></div></div>
+    <div class="row" id="s4sub"><div class="shd"><div class="paper news torn ink" data-seed="26" data-amp="4">آسيا · إفريقيا · أمريكا اللاتينية</div></div></div>
+    <div class="row" id="s4t1"><div class="shd"><div class="paper strip torn ink" data-seed="27" data-edges="tb">مؤتمر القارات الثلاث</div></div></div>
+    <div class="row" id="s4t2"><div class="shd"><div class="paper red torn" data-seed="28" data-amp="4">هافانا · يناير <span class="type">1966</span></div></div></div>
+    <div class="row" id="s4t3"><div class="shd"><div class="paper news torn ink" data-seed="29" data-amp="4">ترأّس بن بركة لجنته التحضيرية</div></div></div>
   </div>
 
-  <!-- S5: Paris -->
+  <!-- S5: newspaper front page -->
   <div class="scene" id="S5">
-    <svg class="abs" id="s5svg" width="1080" height="1920" viewBox="0 0 1080 1920">
-      <g id="s5street" stroke="#5b4f42" stroke-width="3" fill="none">
-        <path d="M540 900 L0 1900"/><path d="M540 900 L1080 1900"/>
-        <path d="M540 900 L0 1300"/><path d="M540 900 L1080 1300"/>
-        <path d="M540 900 L0 700"/><path d="M540 900 L1080 700"/>
-        <path d="M540 900 L300 1900"/><path d="M540 900 L780 1900"/>
-      </g>
-      <g id="s5fig" transform="translate(540 1080)">
-        <circle cy="-150" r="34" fill="#efe6d2"/>
-        <path d="M-60 0 C-55 -80 -40 -110 0 -110 C40 -110 55 -80 60 0 Z" fill="#efe6d2"/>
-        <rect x="-44" y="-4" width="34" height="90" fill="#efe6d2"/><rect x="10" y="-4" width="34" height="90" fill="#efe6d2"/>
-      </g>
-    </svg>
-    <div class="abs c" id="s5top">باريس · 29 أكتوبر 1965 · منتصف النهار</div>
-    <div class="abs" id="s5sign">BRASSERIE LIPP</div>
-    <div class="abs" id="s5stamp">اختفاء قسري</div>
-    <div class="abs c" id="s5a">أمام مقهى «ليب» بشارع سان جيرمان</div>
-    <div class="abs" id="s5hl"></div>
-    <div class="abs c" id="s5b">اختُطف في وضح النهار</div>
-    <div class="abs c" id="s5c">ولم يُعثر على جثّته إلى اليوم</div>
+    <div class="abs" id="s5page"><div class="shd"><div class="paper news torn" data-seed="31" data-amp="10">
+      <div class="mast ink">
+        <h1>الأرشيف</h1>
+        <div class="sub"><span>باريس</span><span>السبت 30 أكتوبر 1965</span><span>العدد 1965</span></div>
+      </div>
+      <div class="kicker ink">اختُطف في وضح النهار</div>
+      <div class="headline ink">اختطاف المهدي بن بركة<br>في قلب باريس</div>
+      <div class="photo">
+        <svg viewBox="0 0 900 520" preserveAspectRatio="xMidYMid slice">
+          <rect width="900" height="520" fill="url(#d1)"/>
+          <rect x="60" y="30" width="780" height="490" fill="url(#d2)"/>
+          <rect x="120" y="60" width="150" height="90" fill="url(#d3)"/><rect x="375" y="60" width="150" height="90" fill="url(#d3)"/><rect x="630" y="60" width="150" height="90" fill="url(#d3)"/>
+          <rect x="90" y="175" width="720" height="62" fill="#1d1813"/>
+          <text x="450" y="221" text-anchor="middle" font-family="Type" font-size="44" letter-spacing="8" fill="#ddd3bd">BRASSERIE LIPP</text>
+          <g>
+            <rect x="80" y="245" width="740" height="64" fill="#ddd3bd"/>
+            <g fill="#1d1813"><rect x="80" y="245" width="46" height="64"/><rect x="172" y="245" width="46" height="64"/><rect x="264" y="245" width="46" height="64"/><rect x="356" y="245" width="46" height="64"/><rect x="448" y="245" width="46" height="64"/><rect x="540" y="245" width="46" height="64"/><rect x="632" y="245" width="46" height="64"/><rect x="724" y="245" width="46" height="64"/></g>
+            <path d="M80 309 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0 q 23 18 46 0" fill="#ddd3bd" stroke="#1d1813" stroke-width="3"/>
+          </g>
+          <rect x="110" y="345" width="210" height="150" fill="url(#d3)" stroke="#ddd3bd" stroke-width="6"/>
+          <rect x="385" y="345" width="130" height="175" fill="url(#d3)" stroke="#ddd3bd" stroke-width="6"/>
+          <rect x="580" y="345" width="210" height="150" fill="url(#d3)" stroke="#ddd3bd" stroke-width="6"/>
+          <rect x="0" y="500" width="900" height="20" fill="url(#d1)"/>
+          <g id="s5fig" transform="translate(700 512)">
+            <circle cy="-196" r="25" fill="#1d1813"/>
+            <path d="M-42 -40 C-44 -120 -32 -166 0 -166 C32 -166 44 -120 42 -40 L30 0 L8 0 L4 -40 L-4 -40 L-8 0 L-30 0 Z" fill="#1d1813"/>
+          </g>
+          <g id="s5ghost" transform="translate(700 512)" fill="none" stroke="#b3142a" stroke-width="4" stroke-dasharray="10 9">
+            <circle cy="-196" r="25"/>
+            <path d="M-42 -40 C-44 -120 -32 -166 0 -166 C32 -166 44 -120 42 -40 L30 0 L8 0 L4 -40 L-4 -40 L-8 0 L-30 0 Z"/>
+          </g>
+        </svg>
+      </div>
+      <div class="caption ink">أمام مقهى «ليب» بشارع سان جيرمان، منتصف نهار الجمعة 29 أكتوبر 1965</div>
+      <div class="cols"><div class="col"><b></b></div><div class="col"><b></b></div><div class="col"><b></b></div></div>
+    </div></div>
+      <div class="abs" id="s5stamp"><div class="stamp">اختفاء قسري</div></div>
+    </div>
+    <div class="row" id="s5c"><div class="shd"><div class="paper red strip torn ink" data-seed="32" data-edges="tblr">ولم يُعثر على جثّته إلى اليوم</div></div></div>
   </div>
 
-  <!-- S6: counter -->
+  <!-- S6: tear-off calendar -->
   <div class="scene" id="S6">
-    <div class="abs c" id="s6a">منذ ذلك اليوم</div>
-    <div class="abs c ltr" id="s6num">0</div>
-    <div class="abs c" id="s6b">سنة</div>
-    <div class="abs" id="s6line"></div>
-    <div class="abs c" id="s6c">والحقيقة ما تزال غائبة</div>
+    <div id="s6stack"><i style="transform:translate(10px,14px) rotate(1.2deg)"></i><i style="transform:translate(-6px,8px) rotate(-.8deg)"></i></div>
+    <div class="abs" id="s6cal"><div class="shd">
+      <div class="top"><div class="holes"><i></i><i></i></div>منذ ذلك اليوم</div>
+      <div class="paper sheet"><div id="s6num" class="ltr ink">0</div><div id="s6yr" class="ink">سنة</div></div>
+      <div class="paper torn" id="s6peel" data-seed="41" data-edges="b"></div>
+    </div></div>
+    <div class="row" id="s6c"><div class="shd"><div class="paper strip torn ink" data-seed="42" data-edges="tb">والحقيقة ما تزال غائبة</div></div></div>
   </div>
 
-  <!-- S7: outro -->
+  <!-- S7: outro, paper seal -->
   <div class="scene" id="S7">
-    <div class="abs" id="s7ring"></div>
-    <div class="abs" id="s7ring2"></div>
-    <div class="abs" id="s7mono">ش</div>
-    <div class="abs c" id="s7a">الشبيبة الاتحادية</div>
-    <div class="abs c" id="s7b">المكتب الإقليمي · تطوان</div>
-    <div class="abs" id="s7btn">تابعونا</div>
-    <div class="abs c" id="s7c">الحلقة القادمة قريباً</div>
+    <div class="disc" id="s7seal"><div class="shd"><div class="paper torn" data-circle="1" data-seed="51" data-amp="3"><div class="ring"></div><div class="ring2"></div><div class="m">ش</div></div></div></div>
+    <div class="row" id="s7a"><div class="shd"><div class="paper strip torn ink" data-seed="52" data-edges="tb">الشبيبة الاتحادية</div></div></div>
+    <div class="row" id="s7b"><div class="shd"><div class="paper news torn ink" data-seed="53" data-amp="5">المكتب الإقليمي · تطوان</div></div></div>
+    <div class="row" id="s7btn"><div class="shd"><div class="paper red torn ink" data-seed="54" data-amp="6">تابعونا</div></div></div>
+    <div class="row" id="s7c">الحلقة القادمة قريباً</div>
   </div>
 
   <svg id="grain" width="1080" height="1920"><filter id="gf"><feTurbulence id="turb" type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="1"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#gf)"/></svg>
   <div id="vignette"></div>
-  <div id="brand"><i></i>الشبيبة الاتحادية · تطوان</div>
+  <div class="abs" id="brand"><div class="shd"><div class="paper torn ink" data-seed="60" data-amp="3">الشبيبة الاتحادية · تطوان</div></div></div>
   <div id="progress"></div>
   <div id="flash"></div>
 </div>
@@ -248,7 +344,7 @@ const eo5 = x => 1 - Math.pow(1 - x, 5);
 const eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 const back = x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
 const lerp = (a, b, x) => a + (b - a) * x;
-const rnd = n => { const s = Math.sin(n * 127.1) * 43758.5453; return s - Math.floor(s); };
+const rnd = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
 
 function st(el, { o = 1, x = 0, y = 0, s = 1, r = 0, blur = 0, clip } = {}) {
   if (typeof el === 'string') el = $(el);
@@ -257,207 +353,223 @@ function st(el, { o = 1, x = 0, y = 0, s = 1, r = 0, blur = 0, clip } = {}) {
   el.style.filter = blur > 0.05 ? `blur(${blur}px)` : 'none';
   if (clip !== undefined) el.style.clipPath = clip;
 }
-// fade-up-in, then fade-out
-function inOut(el, t, a, d, b, e = .5) {
-  const i = eo(P(t, a, a + d)), o = P(t, b, b + e);
-  st(el, { o: i * (1 - o), y: (1 - i) * 60 - o * 40, blur: (1 - i) * 14 + o * 10 });
+// lift shadow while paper is in the air
+function lift(el, h) {
+  const s = (typeof el === 'string' ? $(el) : el).querySelector('.shd');
+  if (s) s.style.filter = `drop-shadow(0 ${14 + h * 50}px ${16 + h * 40}px rgba(0,0,0,${.55 - h * .2})) drop-shadow(0 2px 2px rgba(0,0,0,${.45 * (1 - h)}))`;
 }
-// word-by-word reveal (RTL-safe: words are whole inline-blocks)
-function words(el, t, a, step, d = .45) {
+// paper dropped onto the board: falls from above, rotates, lands with a tiny settle
+function drop(el, t, a, rot = 0, d = .55) {
+  const k = P(t, a, a + d), e = eo(k);
+  const settle = Math.sin(P(t, a + d * .8, a + d + .35) * Math.PI) * .012;
+  st(el, { o: P(t, a, a + .08), s: lerp(1.35, 1, e) + settle, r: rot + (1 - e) * (rot >= 0 ? 9 : -9), y: (1 - e) * -50 });
+  lift(el, 1 - e);
+}
+// paper slid in from a side (dir 1 = from right)
+function slide(el, t, a, rot = 0, dir = 1, d = .6) {
+  const e = eo5(P(t, a, a + d));
+  st(el, { o: P(t, a, a + .1), x: (1 - e) * 1100 * dir, r: rot + (1 - e) * 6 * dir });
+  lift(el, (1 - e) * .5);
+}
+// rubber stamp slam
+function slam(el, t, a, rot = -6) {
+  const k = P(t, a, a + .22);
+  st(el, { o: k > 0 ? 1 : 0, s: lerp(2.2, 1, eo5(k)), r: rot, blur: (1 - k) * 4 });
+}
+function words(el, t, a, step, d = .4) {
   [...$(el).querySelectorAll('.w')].forEach((w, i) => {
     const k = eo(P(t, a + i * step, a + i * step + d));
-    st(w, { o: k, y: (1 - k) * 50, blur: (1 - k) * 12, s: lerp(1.15, 1, k) });
+    st(w, { o: k, y: (1 - k) * 30, blur: (1 - k) * 8 });
   });
 }
-// RTL wipe: reveal from right to left
-const wipeRTL = k => `inset(-20% 0 -20% ${(1 - k) * 100}%)`;
-const wipeC = k => `inset(-20% ${(1 - k) * 50}% -20% ${(1 - k) * 50}%)`;
+function draw(id, k) {
+  const el = $(id), L = el.getTotalLength();
+  el.style.strokeDasharray = L; el.style.strokeDashoffset = L * (1 - k);
+}
+function exitAll(id, t, a, d = .6, kind = 'blow') {
+  const o = eio(P(t, a, a + d));
+  if (kind === 'blow') st(id, { o: 1 - o, s: 1 + o * .2, blur: o * 12 });
+  else if (kind === 'up') st(id, { o: 1 - o, y: -o * 300, r: o * -3 });
+  else st(id, { o: 1 - o, x: -o * 400, r: o * 4 });
+}
 
-const scenes = [['S1', 0, 4.6], ['S2', 4.4, 10.1], ['S3', 9.9, 19.1], ['S4', 18.9, 25.1], ['S5', 24.9, 32.1], ['S6', 31.9, 37.1], ['S7', 36.9, 42]];
+// torn-paper edges as clip-path polygons (deterministic per seed)
+function tornPoly(w, h, seed, amp, edges) {
+  const pts = []; let i = 0;
+  const j = () => { i++; const r = rnd(seed * 31.7 + i * 1.37); return (r * .75 + (rnd(seed + i * 7.1) > .85 ? .6 : 0)) * amp; };
+  const stp = 10;
+  for (let x = 0; x <= w; x += stp) pts.push([x, edges.includes('t') ? j() : 0]);
+  for (let y = 0; y <= h; y += stp) pts.push([w - (edges.includes('r') ? j() : 0), y]);
+  for (let x = w; x >= 0; x -= stp) pts.push([x, h - (edges.includes('b') ? j() : 0)]);
+  for (let y = h; y >= 0; y -= stp) pts.push([edges.includes('l') ? j() : 0, y]);
+  return 'polygon(' + pts.map(p => `${p[0].toFixed(1)}px ${p[1].toFixed(1)}px`).join(',') + ')';
+}
+function tornCircle(seed, amp) {
+  const pts = [];
+  for (let a = 0, i = 0; a < 360; a += 3, i++) {
+    const r = 50 - (rnd(seed * 17.3 + i) * .7 + (rnd(seed + i * 3.3) > .88 ? .7 : 0)) * amp;
+    pts.push(`${(50 + r * Math.cos(a * Math.PI / 180)).toFixed(2)}% ${(50 + r * Math.sin(a * Math.PI / 180)).toFixed(2)}%`);
+  }
+  return `polygon(${pts.join(',')})`;
+}
+let tornReady = false;
+// show every scene so all fonts (incl. lazily-loaded subsets) load before measuring
+window.prepare = async function () {
+  document.querySelectorAll('.scene').forEach(s => s.style.display = 'block');
+  await new Promise(r => requestAnimationFrame(r));
+  await document.fonts.ready;
+  await new Promise(r => requestAnimationFrame(r));
+  setupTorn();
+};
+function setupTorn() {
+  const sc = [...document.querySelectorAll('.scene')];
+  sc.forEach(s => s.style.display = 'block');
+  document.querySelectorAll('.torn').forEach((el, i) => {
+    const seed = +el.dataset.seed || i + 1;
+    if (el.dataset.circle) el.style.clipPath = tornCircle(seed, +el.dataset.amp || 2.2);
+    else el.style.clipPath = tornPoly(el.offsetWidth, el.offsetHeight, seed, +el.dataset.amp || 7, el.dataset.edges || 'tblr');
+  });
+  sc.forEach(s => s.style.display = 'none');
+  tornReady = true;
+}
 
-// build digit rollers
+// digit rollers
 document.querySelectorAll('.dg').forEach((d, i) => {
   const v = +d.dataset.v, loops = 2 + (i % 3);
   let h = '';
   for (let k = 0; k < loops * 10 + v + 1; k++) h += `<span>${k % 10}</span>`;
-  d.innerHTML = `<div class="roll">${h}</div>`;
+  d.innerHTML = `<div>${h}</div>`;
   d.dataset.n = loops * 10 + v;
 });
 
+const scenes = [['S1', 0, 4.6], ['S2', 4.4, 10.1], ['S3', 9.9, 19.1], ['S4', 18.9, 25.1], ['S5', 24.9, 32.1], ['S6', 31.9, 37.1], ['S7', 36.9, 42]];
+
 window.render = function (t) {
   const f = Math.round(t * FPS);
-  // scene visibility
   for (const [id, a, b] of scenes) $(id).style.display = (t >= a && t < b) ? 'block' : 'none';
 
-  // global: grain seed, light leak drift, progress, brand
   $('turb').setAttribute('seed', f % 12);
   $('lightleak').style.transform = `translate(${-300 + Math.sin(t * .35) * 260}px,${200 + Math.cos(t * .27) * 400}px)`;
   $('progress').style.width = (t / DUR * 100) + '%';
-  st('brand', { o: .75 * eo(P(t, .5, 1.2)) * (1 - P(t, 36.5, 37)) });
-  // transition flashes
+  drop('brand', t, .4, -2);
+  if (t > 36.5) $('brand').style.opacity = 1 - P(t, 36.5, 37);
   let fl = 0;
-  for (const c of [4.5, 10, 19, 25, 32, 37]) fl = Math.max(fl, (1 - P(Math.abs(t - c), 0, .12)) * .18);
+  for (const c of [4.5, 10, 19, 25, 32, 37]) fl = Math.max(fl, (1 - P(Math.abs(t - c), 0, .1)) * .1);
   $('flash').style.opacity = fl;
 
-  /* ---------- S1 hook 0–4.6 ---------- */
+  /* S1 0–4.6 */
   if (t < 4.6) {
-    const out = eio(P(t, 4.0, 4.6));
-    $('s1line').style.width = (eo5(P(t, 0, .9)) * 760) + 'px';
-    $('s1line').style.marginLeft = -(eo5(P(t, 0, .9)) * 380) + 'px';
-    inOut('s1city', t, .3, .6, 99);
-    const dk = eo5(P(t, .5, 2.0));
+    drop('s1clip', t, .15, -1.5);
     document.querySelectorAll('#s1date .dg').forEach((d, i) => {
       const k = eo5(P(t, .5 + i * .07, 1.9 + i * .07));
-      d.firstChild.style.transform = `translateY(${-k * d.dataset.n * 150}px)`;
+      d.firstChild.style.transform = `translateY(${-k * d.dataset.n * 128}px)`;
     });
-    st('s1date', { o: P(t, .5, .8), s: lerp(1.1, 1, dk) });
-    words('s1a', t, 2.1, .22);
-    words('s1b', t, 3.1, .25, .35);
-    st('S1', { o: 1 - out, s: 1 + out * .25, blur: out * 18 });
+    slide('s1a', t, 1.9, 1.5, 1);
+    words('s1a', t, 2.15, .2);
+    drop('s1b', t, 3.0, -2.5, .45);
+    exitAll('S1', t, 4.0);
   }
 
-  /* ---------- S2 title 4.4–10.1 ---------- */
+  /* S2 4.4–10.1 */
   if (t >= 4.4 && t < 10.1) {
-    const k = back(P(t, 4.5, 5.4));
-    st('s2frame', { o: P(t, 4.5, 4.8), s: lerp(.6, 1, k) });
-    $('s2ring').style.transform = `rotate(${t * 18}deg)`; $('s2ring').style.transformOrigin = '250px 250px';
-    $('s2sil').style.transform = `translateY(${(1 - eo(P(t, 4.7, 5.8))) * 80}px) scale(${1 + (t - 4.5) * .01})`;
-    $('s2sil').style.transformOrigin = '250px 250px';
-    inOut('s2tag', t, 5.0, .5, 99);
-    st('s2n1', { clip: wipeRTL(eio(P(t, 5.3, 6.0))), x: (1 - eo(P(t, 5.3, 6.1))) * 60 });
-    st('s2n2', { clip: wipeRTL(eio(P(t, 5.7, 6.5))), x: (1 - eo(P(t, 5.7, 6.6))) * 60 });
-    const bk = eo5(P(t, 6.5, 7.2));
-    $('s2bar').style.width = (bk * 600) + 'px'; $('s2bar').style.marginLeft = (-bk * 300) + 'px';
-    inOut('s2years', t, 6.8, .6, 99);
-    const q = $('s2years').querySelector('b');
-    q.style.opacity = .55 + .45 * Math.abs(Math.sin(t * 4));
-    inOut('s2label', t, 7.4, .6, 99);
-    const out = eio(P(t, 9.5, 10.1));
-    st('S2', { o: 1 - out, x: out * -200, blur: out * 12 });
+    drop('s2clip', t, 4.55, -3, .65);
+    $('s2sil').style.transform = `scale(${1 + (t - 4.5) * .012})`; $('s2sil').style.transformOrigin = '244px 300px';
+    drop('s2tag', t, 5.1, 3, .4);
+    slide('s2n1', t, 5.35, -1.5, 1);
+    slide('s2n2', t, 5.75, 1.8, -1);
+    slam('s2stamp', t, 6.8, -5);
+    drop('s2label', t, 7.4, -1.5, .45);
+    exitAll('S2', t, 9.5, .6, 'left');
   }
 
-  /* ---------- S3 timeline 9.9–19.1 ---------- */
+  /* S3 9.9–19.1 */
   if (t >= 9.9 && t < 19.1) {
-    st('s3title', { clip: wipeRTL(eio(P(t, 10.0, 10.8))), x: (1 - eo(P(t, 10, 10.9))) * 80 });
-    const items = [...document.querySelectorAll('#S3 .ti')];
-    const starts = [11.0, 12.8, 14.6, 16.4];
-    const railK = eio(P(t, 10.6, 17.2));
-    $('s3rail').style.height = (railK * 1150) + 'px';
-    items.forEach((it, i) => {
+    slide('s3head', t, 10.0, -1, 1);
+    drop('s3kick', t, 10.4, 4, .4);
+    const starts = [11.0, 12.8, 14.6, 16.4], rots = [2, -2.5, 1.5, -2];
+    ['c1', 'c2', 'c3', 'c4'].forEach((c, i) => {
       const a = starts[i];
-      const dot = it.querySelector('.dot'), yr = it.querySelector('.yr'), tx = it.querySelector('.tx');
-      const dk = back(P(t, a, a + .45));
-      st(dot, { o: P(t, a, a + .1), s: dk });
-      dot.style.background = t > a + .3 ? 'var(--red)' : 'var(--bg)';
-      // year counts up into place
-      const yk = eo5(P(t, a + .05, a + .8));
-      const target = +yr.dataset.y || (yr.dataset.y = yr.textContent);
-      yr.textContent = Math.round(lerp(+yr.dataset.y - 30, +yr.dataset.y, yk));
-      st(yr, { o: P(t, a, a + .25), x: (1 - yk) * 60 });
-      st(tx, { clip: wipeRTL(eio(P(t, a + .35, a + 1.0))) });
-      // active highlight
-      const active = t >= a && (i === 3 || t < starts[i + 1]);
-      it.style.opacity = active ? 1 : (t > a ? .45 : 1);
+      drop(c, t, a, rots[i], .5);
+      const yr = $(c).querySelector('.yr'), yk = eo5(P(t, a + .1, a + .9));
+      yr.textContent = Math.round(lerp(+yr.dataset.y - 25, +yr.dataset.y, yk));
+      const pk = back(P(t, a + .45, a + .75));
+      const pp = [[660, 445], [420, 785], [660, 1135], [420, 1475]][i];
+      $('p' + (i + 1)).setAttribute('transform', `translate(${pp[0]} ${pp[1] - (1 - P(t, a + .45, a + .6)) * 60}) scale(${Math.max(.001, pk)})`);
     });
-    const out = eio(P(t, 18.5, 19.1));
-    st('S3', { o: 1 - out, y: out * -160, blur: out * 10 });
+    draw('th1', eio(P(t, 12.95, 13.6)));
+    draw('th2', eio(P(t, 14.75, 15.4)));
+    draw('th3', eio(P(t, 16.55, 17.2)));
+    // slow drift of the whole board
+    $('S3').style.transform = `translateY(${-(t - 10) * 4}px)`;
+    if (t > 18.5) exitAll('S3', t, 18.5, .6, 'up');
   }
 
-  /* ---------- S4 tricontinental 18.9–25.1 ---------- */
+  /* S4 18.9–25.1 */
   if (t >= 18.9 && t < 25.1) {
-    st('s4head', { clip: wipeC(eio(P(t, 19.1, 19.8))), s: lerp(1.08, 1, eo(P(t, 19.1, 20))) });
-    inOut('s4sub', t, 19.6, .5, 99);
-    ['n1', 'n2', 'n3'].forEach((n, i) => {
-      const a = 19.8 + i * .25, k = back(P(t, a, a + .5));
-      const pos = [[840, 650], [240, 650], [540, 1180]][i];
-      $(n).setAttribute('transform', `translate(${pos[0]} ${pos[1]}) scale(${Math.max(0.001, k)})`);
-      st('tl' + (i + 1), { o: P(t, a + .2, a + .6) });
-    });
-    ['l1', 'l2', 'l3'].forEach((l, i) => {
-      const el = $(l), L = el.getTotalLength(), k = eio(P(t, 20.5 + i * .2, 21.6 + i * .2));
-      el.style.strokeDasharray = L; el.style.strokeDashoffset = L * (1 - k);
-    });
-    const ck = back(P(t, 21.6, 22.2));
-    $('s4core').setAttribute('transform', `translate(540 900) scale(${Math.max(.001, ck)})`);
-    const pk = ((t - 21.6) % 1.2) / 1.2;
-    $('s4pulse').setAttribute('r', 80 + pk * 90); $('s4pulse').style.opacity = t > 21.6 ? (1 - pk) : 0;
-    $('s4orbit').setAttribute('transform', `rotate(${t * 120})`);
-    st('s4t1', { clip: wipeRTL(eio(P(t, 22.2, 22.9))) });
-    inOut('s4t2', t, 22.8, .5, 99);
-    inOut('s4t3', t, 23.3, .5, 99);
-    const out = eio(P(t, 24.5, 25.1));
-    st('S4', { o: 1 - out, s: 1 + out * .3, blur: out * 14 });
+    slide('s4head', t, 19.05, -1.2, -1);
+    drop('s4sub', t, 19.55, 1.5, .4);
+    ['n1', 'n2', 'n3'].forEach((n, i) => drop(n, t, 19.8 + i * .25, [8, -10, 5][i], .45));
+    ['l1', 'l2', 'l3'].forEach((l, i) => draw(l, eio(P(t, 20.6 + i * .15, 21.5 + i * .15))));
+    drop('s4core', t, 21.6, -8, .5);
+    $('s4core').querySelector('.paper').style.transform = `rotate(${(t - 21.6) * 6}deg)`;
+    const pk = ((t - 21.6) % 1.4) / 1.4;
+    $('s4pulse').setAttribute('r', 140 + pk * 80); $('s4pulse').style.opacity = t > 22 ? (1 - pk) * .8 : 0;
+    slide('s4t1', t, 22.2, -1, 1);
+    drop('s4t2', t, 22.8, 2, .4);
+    drop('s4t3', t, 23.3, -1.5, .4);
+    exitAll('S4', t, 24.5);
   }
 
-  /* ---------- S5 Paris 24.9–32.1 ---------- */
+  /* S5 24.9–32.1 newspaper */
   if (t >= 24.9 && t < 32.1) {
-    const lines = [...document.querySelectorAll('#s5street path')];
-    lines.forEach((p, i) => {
-      const L = p.getTotalLength(), k = eio(P(t, 25.0 + i * .05, 26.0 + i * .05));
-      p.style.strokeDasharray = L; p.style.strokeDashoffset = L * (1 - k);
-    });
-    // slow push-in on the street
-    $('s5svg').style.transform = `scale(${1 + (t - 25) * .025})`; $('s5svg').style.transformOrigin = '540px 900px';
-    inOut('s5top', t, 25.2, .5, 99);
-    // neon flicker
-    let neon = P(t, 25.6, 25.7);
-    if (t > 25.6 && t < 26.6) neon *= rnd(f) > .45 ? 1 : .15;
-    if (t > 29.6) neon *= rnd(f * 3) > .3 ? .55 : .1; // dies after the abduction
-    $('s5sign').style.opacity = neon;
-    $('s5sign').style.boxShadow = `0 0 ${40 * neon}px rgba(255,190,110,${.8 * neon}), inset 0 0 ${30 * neon}px rgba(255,190,110,${.5 * neon})`;
-    $('s5sign').style.textShadow = `0 0 ${24 * neon}px rgba(255,200,130,${neon})`;
-    // figure appears, then vanishes
-    const fi = eo(P(t, 26.0, 26.8)), fo = eio(P(t, 28.4, 29.4));
-    const fig = $('s5fig');
-    fig.style.opacity = fi * (1 - fo);
-    fig.style.filter = fo > .01 ? `blur(${fo * 20}px)` : 'none';
-    fig.setAttribute('transform', `translate(540 ${1080 - fo * 30}) scale(${lerp(.85, 1, fi) * (1 - fo * .4)})`);
-    inOut('s5a', t, 26.4, .6, 99);
-    st('s5b', { clip: wipeRTL(eio(P(t, 27.3, 28.0))) });
-    const hk = eio(P(t, 27.6, 28.2));
-    $('s5hl').style.width = (hk * 860) + 'px'; $('s5hl').style.marginLeft = (-430) + 'px';
-    $('s5hl').style.clipPath = wipeRTL(hk);
-    // stamp slam
-    const sk = P(t, 29.2, 29.5);
-    st('s5stamp', { o: sk > 0 ? 1 : 0, s: lerp(2.4, 1, eo5(sk)), r: -8, blur: (1 - sk) * 6 });
-    // shake on impact
-    const sh = (1 - P(t, 29.5, 30.0)) * (t > 29.5 ? 1 : 0);
-    $('S5').style.transform = `translate(${(rnd(f) - .5) * 30 * sh}px,${(rnd(f + 7) - .5) * 30 * sh}px)`;
-    // desaturate the world after the abduction
-    $('stage').style.filter = t > 29.4 && t < 32 ? `saturate(${1 - P(t, 29.4, 30.2) * .7})` : 'none';
-    inOut('s5c', t, 30.2, .6, 99);
-    const out = eio(P(t, 31.5, 32.1));
-    $('S5').style.opacity = 1 - out;
-  } else { $('stage').style.filter = 'none'; }
+    const e = eo5(P(t, 25.0, 25.9));
+    const zoom = lerp(1, 1.1, eio(P(t, 26.2, 31.5)));
+    const sh = t > 29.4 ? (1 - P(t, 29.4, 29.9)) : 0;
+    $('s5page').style.transformOrigin = '50% 52%';
+    st('s5page', { o: P(t, 25, 25.1), y: (1 - e) * 1800 + (rnd(f + 7) - .5) * 26 * sh, x: (rnd(f) - .5) * 26 * sh, r: lerp(-1.5, 6, 1 - e), s: zoom });
+    lift('s5page', (1 - e) * .6);
+    // the man disappears from the photo, leaving a dashed outline
+    const fo = eio(P(t, 28.2, 29.1));
+    $('s5fig').style.opacity = 1 - fo;
+    $('s5ghost').style.opacity = P(t, 28.5, 29.0);
+    slam('s5stamp', t, 29.2, -9);
+    slide('s5c', t, 30.2, -2, 1);
+    $('S5').style.opacity = 1 - eio(P(t, 31.5, 32.1));
+  }
 
-  /* ---------- S6 counter 31.9–37.1 ---------- */
+  /* S6 31.9–37.1 calendar */
   if (t >= 31.9 && t < 37.1) {
-    inOut('s6a', t, 32.1, .5, 99);
+    drop('s6cal', t, 32.0, -2, .5);
+    st('s6stack', { o: P(t, 32.0, 32.3), r: -2 });
     const ck = eo5(P(t, 32.4, 34.4));
     $('s6num').textContent = Math.round(ck * 61);
-    st('s6num', { o: P(t, 32.4, 32.7), s: lerp(.7, 1, back(P(t, 32.4, 33.2))) + (t > 34.4 ? Math.sin((t - 34.4) * 3) * .01 : 0) });
-    inOut('s6b', t, 33.4, .5, 99);
-    const lk = eo5(P(t, 34.4, 35.0));
-    $('s6line').style.width = (lk * 520) + 'px'; $('s6line').style.marginLeft = (-lk * 260) + 'px';
-    st('s6c', { clip: wipeRTL(eio(P(t, 34.7, 35.6))) });
-    const out = eio(P(t, 36.5, 37.1));
-    st('S6', { o: 1 - out, blur: out * 14, s: 1 - out * .1 });
+    // sheets tearing off while counting
+    const peel = $('s6peel');
+    if (t > 32.4 && t < 34.4) {
+      const ph = ((t - 32.4) / .33) % 1;
+      peel.style.opacity = 1 - P(ph, .7, 1);
+      peel.style.transform = `perspective(1400px) rotateX(${ph * 110}deg) translateY(${-ph * 40}px)`;
+    } else peel.style.opacity = 0;
+    drop('s6c', t, 34.7, -1.5, .45);
+    exitAll('S6', t, 36.5);
   }
 
-  /* ---------- S7 outro 36.9–42 ---------- */
+  /* S7 36.9–42 */
   if (t >= 36.9) {
-    const rk = eo5(P(t, 37.0, 37.9));
-    st('s7ring', { o: rk, s: lerp(.3, 1, rk) });
-    st('s7ring2', { o: rk, s: lerp(1.6, 1, rk), r: t * -25 });
-    st('s7mono', { o: P(t, 37.3, 37.5), s: back(P(t, 37.3, 37.9)) });
-    st('s7a', { clip: wipeC(eio(P(t, 37.8, 38.5))) });
-    inOut('s7b', t, 38.3, .5, 99);
-    const bk = back(P(t, 38.9, 39.4));
-    st('s7btn', { o: P(t, 38.9, 39.0), s: Math.max(0, bk) * (t > 40 ? 1 + Math.sin((t - 40) * 6) * .03 : 1) });
-    inOut('s7c', t, 39.5, .5, 99);
+    const k = eo(P(t, 37.05, 37.7));
+    st('s7seal', { o: P(t, 37.05, 37.15), s: lerp(1.6, 1, k), r: lerp(-120, -6, k) });
+    lift('s7seal', 1 - k);
+    // stamp ink appears after the seal lands
+    const ik = P(t, 37.75, 37.95);
+    $('s7seal').querySelectorAll('.ring,.ring2,.m').forEach(x => { x.style.opacity = ik; x.style.transform = `scale(${lerp(1.3, 1, eo5(ik))})`; });
+    slide('s7a', t, 37.9, -1.2, 1);
+    drop('s7b', t, 38.4, 1.5, .4);
+    drop('s7btn', t, 38.95, -2, .45);
+    if (t > 40) $('s7btn').style.transform += ` scale(${1 + Math.sin((t - 40) * 6) * .025})`;
+    st('s7c', { o: eo(P(t, 39.5, 40)) * .8, y: (1 - eo(P(t, 39.5, 40))) * 20 });
   }
 };
-render(0);
+prepare().then(() => render(0));
 </script>
 </body>
 </html>

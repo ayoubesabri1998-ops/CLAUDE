@@ -11,7 +11,7 @@ const path = require('path');
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
   page.on('pageerror', e => console.error('PAGE ERROR', e.message));
   await page.goto('file://' + path.join(__dirname, 'index.html'));
-  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(() => prepare());
   const { DUR, FPS } = await page.evaluate(() => ({ DUR, FPS }));
 
   if (stillsIdx >= 0) {
