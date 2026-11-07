@@ -414,7 +414,10 @@ function tornCircle(seed, amp) {
 }
 let tornReady = false;
 // show every scene so all fonts (incl. lazily-loaded subsets) load before measuring
-window.prepare = async function () {
+let _prep = null;
+// idempotent: page load and the renderer may both call it
+window.prepare = function () { return _prep || (_prep = doPrepare()); };
+async function doPrepare() {
   document.querySelectorAll('.scene').forEach(s => s.style.display = 'block');
   await new Promise(r => requestAnimationFrame(r));
   await document.fonts.ready;
