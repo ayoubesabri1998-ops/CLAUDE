@@ -24,15 +24,18 @@ const path = require('path');
   }
 
   const out = args[0] || 'video_silent.mp4';
+  // optional frame range for parallel rendering: --from F --to T (T exclusive)
+  const fi = args.indexOf('--from'), ti = args.indexOf('--to');
   const ff = spawn('ffmpeg', ['-y', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-',
     '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out],
     { stdio: ['pipe', 'ignore', 'inherit'] });
   const N = Math.round(DUR * FPS);
-  for (let f = 0; f < N; f++) {
+  const F0 = fi >= 0 ? +args[fi + 1] : 0, F1 = ti >= 0 ? Math.min(N, +args[ti + 1]) : N;
+  for (let f = F0; f < F1; f++) {
     await page.evaluate(t => render(t), f / FPS);
     const buf = await page.screenshot({ type: 'jpeg', quality: 95 });
     if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
-    if (f % 150 === 0) console.log(`frame ${f}/${N}`);
+    if (f % 150 === 0) console.log(`frame ${f}/${N} [${F0}-${F1})`);
   }
   ff.stdin.end();
   await new Promise(r => ff.on('close', r));
