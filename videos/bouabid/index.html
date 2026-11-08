@@ -176,8 +176,8 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
 #s10B{top:950px}#s10B .paper{font-size:58px}
 #s10C{top:1110px}#s10C .paper{font-size:62px}
 #s10stamp{top:840px}#s10stamp .stamp{font-size:94px;border-width:10px;padding:6px 40px 18px}
-#s10d{top:1240px}#s10d .paper{font-size:46px}
-#s10e{top:1360px}#s10e .paper{font-size:42px}
+#s10d{top:880px}#s10d .paper{font-size:50px}
+#s10e{top:1010px}#s10e .paper{font-size:46px}
 
 /* S12 struggle */
 #s12ph{top:130px}#s12ph .paper{padding:16px 16px 12px}#s12ph .pp{width:680px;height:411px;background-size:cover;background-position:center}
@@ -727,6 +727,9 @@ window.render = function (tReal) {
     slide('s10B', t, 89.7, 1, -1);
     drop('s10C', t, 91.6, -2, .45);
     slam('s10stamp', t, 94.4, -14, 2.6);
+    // the collage steps back so the legacy line reads on its own
+    const dim = eio(P(t, 95.3, 95.9));
+    st('s10grp', { o: 1 - dim * .8, blur: dim * 6, s: 1 - dim * .04 });
     drop('s10d', t, 95.8, -1.5, .45);
     drop('s10e', t, 96.5, 2.5, .4);
     exitAll('S10', t, 97.6);
