@@ -136,10 +136,9 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
 .mast .sub{display:flex;justify-content:space-between;border-top:2px solid var(--ink);font-size:26px;font-weight:700;padding:4px 6px 6px}
 .kicker{left:40px;right:40px;top:262px;text-align:center;font-family:Kufi;font-weight:700;font-size:46px;color:var(--red)}
 .headline{left:40px;right:40px;top:322px;text-align:center;font-family:Amiri;font-weight:700;font-size:104px;line-height:1.1}
-.photo{border:3px solid var(--ink);width:430px;height:440px;top:470px;overflow:hidden}
-.photo svg{width:100%;height:100%;display:block}
-.pcap{top:920px;width:430px;font-size:30px;font-weight:700;text-align:center}
-.cols{left:40px;right:40px;top:990px;height:520px;display:flex;gap:30px;border-top:2px solid var(--ink);padding-top:20px}
+.photo{border:3px solid var(--ink);left:40px;width:900px;height:310px;overflow:hidden;background-size:cover}
+.pcap{left:40px;width:900px;font-size:30px;font-weight:700;text-align:right}
+.cols{left:40px;right:40px;top:1180px;height:330px;display:flex;gap:30px;border-top:2px solid var(--ink);padding-top:20px}
 .col{flex:1;background:repeating-linear-gradient(to bottom,rgba(29,24,19,.5) 0 9px,transparent 9px 21px)}
 .col i{display:block;height:24px;background:var(--ink);width:70%;margin:0 0 18px auto;opacity:.85}
 #s7mark{left:0;top:0}
@@ -340,38 +339,16 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
       <div class="pg mast ink"><h1>الأرشيف</h1><div class="sub"><span>ملف خاص</span><span>الاقتصاد الوطني · 1959</span><span>العدد 1959</span></div></div>
       <div class="pg kicker ink">الإصلاح ما وقفش غير على الفلوس</div>
       <div class="pg headline ink">المغرب يبني صناعته</div>
-      <div class="pg photo" style="left:510px">
-        <svg viewBox="0 0 430 440" preserveAspectRatio="xMidYMid slice">
-          <rect width="430" height="440" fill="url(#d1)"/>
-          <ellipse cx="110" cy="120" rx="80" ry="40" fill="#ddd3bd" opacity=".7"/>
-          <rect x="300" y="60" width="34" height="300" fill="url(#d3)"/>
-          <ellipse cx="317" cy="50" rx="40" ry="26" fill="url(#d2)"/><ellipse cx="285" cy="25" rx="34" ry="20" fill="url(#d1)"/>
-          <rect x="40" y="230" width="150" height="160" fill="url(#d2)"/><ellipse cx="115" cy="230" rx="75" ry="18" fill="url(#d3)"/>
-          <rect x="200" y="260" width="110" height="130" fill="url(#d3)"/><ellipse cx="255" cy="260" rx="55" ry="14" fill="url(#d2)"/>
-          <g stroke="#1d1813" stroke-width="7" fill="none"><path d="M0 330 H430"/><path d="M190 300 H300"/><path d="M60 230 V180 H170 V230"/></g>
-          <rect x="0" y="390" width="430" height="50" fill="url(#d3)"/>
-        </svg>
-      </div>
-      <div class="pg photo" style="left:40px">
-        <svg viewBox="0 0 430 440" preserveAspectRatio="xMidYMid slice">
-          <rect width="430" height="440" fill="url(#d1)"/>
-          <path d="M20 200 L20 140 L90 90 L90 140 L160 90 L160 140 L230 90 L230 140 L300 90 L300 140 L370 90 L370 140 L410 110 L410 200 Z" fill="url(#d2)" stroke="#1d1813" stroke-width="4"/>
-          <rect x="20" y="200" width="390" height="140" fill="url(#d3)"/>
-          <g fill="#ddd3bd"><rect x="50" y="225" width="60" height="50"/><rect x="140" y="225" width="60" height="50"/><rect x="230" y="225" width="60" height="50"/><rect x="320" y="225" width="60" height="50"/></g>
-          <rect x="0" y="340" width="430" height="100" fill="url(#d1)"/>
-          <path d="M70 395 C80 360 120 345 170 342 L250 342 C285 344 310 360 330 380 L370 386 C385 390 390 398 388 410 L60 410 C55 402 60 397 70 395 Z" fill="#1d1813"/>
-          <circle cx="130" cy="412" r="24" fill="#1d1813" stroke="#ddd3bd" stroke-width="5"/><circle cx="320" cy="412" r="24" fill="#1d1813" stroke="#ddd3bd" stroke-width="5"/>
-          <path d="M180 352 L250 352 L272 376 L170 376 Z" fill="#ddd3bd" opacity=".7"/>
-        </svg>
-      </div>
-      <div class="pg pcap ink" style="left:510px">سامير · المحمدية</div>
-      <div class="pg pcap ink" style="left:40px">صوماكا · الدار البيضاء</div>
+      <div class="pg photo photo-print" style="top:470px;background-image:url(assets/plant_samir.jpg);background-position:center 60%"></div>
+      <div class="pg pcap ink" style="top:784px">مصفاة سامير · المحمدية</div>
+      <div class="pg photo photo-print" style="top:830px;background-image:url(assets/plant_somaca.jpg);background-position:center 45%"></div>
+      <div class="pg pcap ink" style="top:1144px">معمل صوماكا · الدار البيضاء</div>
       <div class="pg cols"><div class="col"><i></i></div><div class="col"><i></i></div><div class="col"><i></i></div></div>
     </div></div>
       <svg class="abs" id="s7mark" width="980" height="1560" viewBox="0 0 980 1560" style="pointer-events:none">
         <g fill="none" stroke="#b3142a" stroke-width="7" stroke-linecap="round" opacity=".9">
-          <path id="mk1" d="M725 440 C 900 445 975 560 960 700 C 945 850 860 930 720 925 C 560 920 490 830 495 680 C 500 540 590 445 740 452"/>
-          <path id="mk2" d="M255 440 C 430 445 505 560 490 700 C 475 850 390 930 250 925 C 90 920 20 830 25 680 C 30 540 120 445 270 452"/>
+          <path id="mk1" d="M520 452 C 820 450 975 520 968 625 C 960 735 760 800 490 798 C 220 796 12 730 18 622 C 24 520 230 455 540 462"/>
+          <path id="mk2" d="M520 812 C 820 810 975 880 968 985 C 960 1095 760 1160 490 1158 C 220 1156 12 1090 18 982 C 24 880 230 815 540 822"/>
         </g>
       </svg>
     </div>
