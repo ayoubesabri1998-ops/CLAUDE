@@ -14,6 +14,7 @@ import numpy as np
 import noisereduce as nr
 
 src, words_path, out = sys.argv[1], sys.argv[2], sys.argv[3]
+RAW_OUT = '--processed' not in sys.argv   # default: cut the ORIGINAL audio, untouched
 w = wave.open(src); SR = w.getframerate(); nch = w.getnchannels(); sw = w.getsampwidth()
 raw = np.frombuffer(w.readframes(w.getnframes()), dtype=np.uint8)
 if sw == 3:  # 24-bit PCM
@@ -94,14 +95,28 @@ def new_gap(g, nxt_start, prev_end):
     if abs(nxt_start - NAME1) < .35: return .32          # tiny suspense before the name
     if g < .15: return g
     return float(np.clip(g * .4, .10, .24))
+# room tone from the quietest 2 s of the lead-in, used to fill the tightened gaps
+src_sig = x if RAW_OUT else y
+_h = int(.1 * SR); lead = src_sig[int(.5 * SR):int((FIRST_WORD - .4) * SR)]
+_e = np.array([np.sqrt((lead[i:i + 2 * SR] ** 2).mean()) for i in range(0, len(lead) - 2 * SR, _h)])
+_i = int(_e.argmin()) * _h; ROOM = lead[_i:_i + 2 * SR].copy()
+def room(nsamp):
+    reps = int(np.ceil(nsamp / len(ROOM))) + 1
+    r = np.tile(ROOM, reps)[:nsamp].copy() if RAW_OUT else np.zeros(nsamp, np.float32)
+    return r
 edit, segs, t = [], [], 0.0
-fade = int(.012 * SR)
+fade = int(.015 * SR)
 for k, (a, b) in enumerate(keep):
     if k:
         g = new_gap(a - keep[k - 1][1], a + PRE, keep[k - 1][1] - POST)
-        edit.append(np.zeros(int(g * SR), np.float32)); t += g
-    seg = y[int(a * SR):int(b * SR)].copy()
-    seg[:fade] *= np.linspace(0, 1, fade); seg[-fade:] *= np.linspace(1, 0, fade)
+        edit.append(room(int(g * SR))); t += g
+    seg = src_sig[int(a * SR):int(b * SR)].copy()
+    if RAW_OUT:   # crossfade speech <-> room tone instead of fading to digital silence
+        rt = room(fade)
+        seg[:fade] = seg[:fade] * np.linspace(0, 1, fade) + rt * np.linspace(1, 0, fade)
+        seg[-fade:] = seg[-fade:] * np.linspace(1, 0, fade) + rt * np.linspace(0, 1, fade)
+    else:
+        seg[:fade] *= np.linspace(0, 1, fade); seg[-fade:] *= np.linspace(1, 0, fade)
     segs.append({'raw': [a, b], 'edit': [t, t + (b - a)]})
     edit.append(seg); t += b - a
 vo = np.concatenate(edit)
@@ -134,7 +149,7 @@ anchors = [
 vo_end = len(vo) / SR
 json.dump({'sr': SR, 'duration': vo_end, 'segments': segs, 'anchors': anchors, 'thr_db': float(thr), 'floor_db': float(floor)},
           open(f'{out}/edit_map.json', 'w'), ensure_ascii=False, indent=1)
-pcm = (np.clip(vo, -1, 1) * 32767).astype(np.int16)
+pcm = (np.clip(vo, -1, 1) * 32767).astype(np.int16)   # no gain, no processing
 with wave.open(f'{out}/vo_edit.wav', 'wb') as o:
     o.setnchannels(1); o.setsampwidth(2); o.setframerate(SR); o.writeframes(pcm.tobytes())
 print(f'raw {len(x) / SR:.1f}s -> edited {vo_end:.1f}s · islands kept {len(keep)} · VAD thr {thr:.1f} dB (floor {floor:.1f})')
