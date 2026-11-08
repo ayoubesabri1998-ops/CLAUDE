@@ -42,6 +42,8 @@ env = fade(N, 1.5, 3.5)
 # tension before the name: drone sinks to near-silence, then slams back on the hit
 env *= 1 - .85 * np.clip((t - rt(17.0)) / (rt(18.6) - rt(17.0)), 0, 1) * (t < rt(18.6))
 L *= env; R *= env
+if '--sfx-only' in sys.argv:   # music track replaces the drone; keep impacts, stamps, ticks
+    L[:] = 0; R[:] = 0
 
 def boom(at, gain=1.0):
     n = int(2.5 * SR); tt = np.arange(n) / SR
@@ -85,6 +87,6 @@ L, R = verb(L), verb(R)
 mx = max(np.abs(L).max(), np.abs(R).max())
 L, R = L / mx * .6, R / mx * .6
 pcm = (np.stack([L, R], 1) * 32767).astype(np.int16)
-with wave.open(sys.argv[1] if len(sys.argv) > 1 else 'bed.wav', 'wb') as w:
+with wave.open(next((x for x in sys.argv[1:] if not x.startswith('--')), 'bed.wav'), 'wb') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes(pcm.tobytes())
 print('ok')
