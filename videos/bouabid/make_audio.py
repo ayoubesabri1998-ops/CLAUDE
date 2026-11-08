@@ -2,9 +2,19 @@
 dark drone, whoosh + boom on scene cuts, a big hit on the name reveal with the
 drone ducking just before it, stamp thuds, typewriter ticks. Generated from
 scratch, royalty-free."""
-import numpy as np, wave, sys
+import numpy as np, wave, sys, re, json, os
 
-SR, DUR = 48000, 110.0
+# The composition's time-warp table: [real time, internal time]. Every event below is
+# written in internal time and mapped to real time, so audio follows any retiming.
+_html = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'index.html'), encoding='utf-8').read()
+WARP = json.loads(re.search(r'const WARP = (\[.*?\]);', _html).group(1))
+def rt(ti):
+    """internal time -> real time"""
+    for (r0, i0), (r1, i1) in zip(WARP, WARP[1:]):
+        if ti <= i1: return r0 + (r1 - r0) * max(0.0, (ti - i0) / (i1 - i0))
+    return WARP[-1][0]
+
+SR, DUR = 48000, float(WARP[-1][0])
 N = int(SR * DUR)
 t = np.arange(N) / SR
 rng = np.random.default_rng(11)
@@ -30,7 +40,7 @@ air = np.repeat(lowpass(rng.standard_normal(N // 8), 300), 8)[:N] * .5
 L += air * .25; R += np.roll(air, 2400) * .25
 env = fade(N, 1.5, 3.5)
 # tension before the name: drone sinks to near-silence, then slams back on the hit
-env *= 1 - .85 * np.clip((t - 17.0) / 1.4, 0, 1) * (t < 18.6)
+env *= 1 - .85 * np.clip((t - rt(17.0)) / (rt(18.6) - rt(17.0)), 0, 1) * (t < rt(18.6))
 L *= env; R *= env
 
 def boom(at, gain=1.0):
@@ -53,16 +63,18 @@ def tick(at, gain=.12, freq=2400):
     i = int(at * SR); L[i:i + n] += s; R[i:i + n] += s
 
 boom(0.0, .8)
-whoosh(4.2, .5); boom(4.2, .7)                          # coin tears
-for c in [12, 21, 29, 36, 64, 75, 82, 88, 101]:
-    whoosh(c); boom(c, .9)
-whoosh(18.6, 1.4, .5); boom(18.6, 1.7); boom(18.62, .6)  # the name
-for s in [1.9, 5.8, 15.0, 16.4, 19.6, 22.6, 33.6, 77.6, 85.2]:
-    boom(s + .2, .55)                                   # stamps
-boom(94.6, 1.1)                                         # government dismissed
-for k in range(34): tick(82.9 + 3.1 * k / 34 + rng.uniform(-.02, .02), .1, 1800 + rng.uniform(0, 900))  # typewriter
-for w in [40.0, 47.0, 52.6, 56.8, 60.8]: tick(w + .3, .2)  # "why?" strips
-for k in range(10): tick(96.5 + 1.8 * (k / 10) ** .7, .08, 3200)  # coin spin
+whoosh(rt(4.2), .5); boom(rt(4.2), .7)                    # coin tears
+for c in [12, 21, 29, 36, 64, 75, 82, 88, 98, 108, 118, 123]:
+    whoosh(rt(c)); boom(rt(c), .9)
+whoosh(rt(18.6), 1.4, .5); boom(rt(18.6), 1.7); boom(rt(18.6) + .02, .6)  # the name
+for s_ in [1.9, 5.8, 15.0, 16.4, 19.6, 22.6, 33.8, 77.6, 85.2]:
+    boom(rt(s_ + .2), .55)                               # stamps
+boom(rt(94.6), 1.1)                                      # government dismissed
+boom(rt(108.6), 1.2)                                     # 1981 arrest
+for k in range(34): tick(rt(82.9 + 3.1 * k / 34) + rng.uniform(-.02, .02), .1, 1800 + rng.uniform(0, 900))  # typewriter
+for w in [40.0, 47.0, 52.6, 56.8, 60.8]: tick(rt(w + .3), .2)  # "why?" strips
+for k in range(10): tick(rt(118.2 + 1.8 * (k / 10) ** .7), .08, 3200)  # coin spin
+whoosh(rt(120.6), 1.0, .45); boom(rt(120.6), 1.4)        # the name, last time
 
 def verb(x):
     y = x.copy()

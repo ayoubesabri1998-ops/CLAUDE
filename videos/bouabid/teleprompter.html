@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>نص التسجيل · بوعبيد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf7ee;--fg:#1d1813;--muted:#8a7f6e;--accent:#b3142a;--line:#e4dccb;--bar:#fffdf8;--size:44px}
+:root[data-theme="dark"]{--bg:#121010;--fg:#f3ece0;--muted:#8d8476;--accent:#ff6b7d;--line:#2a2522;--bar:#1b1816}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#121010;--fg:#f3ece0;--muted:#8d8476;--accent:#ff6b7d;--line:#2a2522;--bar:#1b1816}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{background:var(--bg);color:var(--fg);font-family:Cairo,"Noto Sans Arabic","Segoe UI",Tahoma,sans-serif;-webkit-text-size-adjust:100%}
+.bar{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;padding:10px 16px;background:var(--bar);border-bottom:1px solid var(--line)}
+.bar button{font:700 18px Cairo,sans-serif;min-width:48px;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
+.bar button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.bar label{display:flex;align-items:center;gap:6px;font:700 16px Cairo,sans-serif;color:var(--muted)}
+.bar input[type=range]{width:110px;accent-color:var(--accent)}
+main{max-width:1100px;margin:0 auto;padding:40px 16px 70vh}
+h1{font-size:22px;color:var(--muted);font-weight:700;margin-bottom:28px;text-align:center}
+p{font-size:var(--size);line-height:1.9;font-weight:700;margin:0 0 .9em;padding:.15em .4em;border-radius:12px;transition:background .2s,opacity .2s}
+p.cur{background:rgba(179,20,42,.09)}
+:root[data-theme="dark"] p.cur{background:rgba(255,107,125,.12)}
+p.done{opacity:.38}
+b{color:var(--accent);font-weight:800}
+.gap{height:1.2em}
+.quote{font-size:calc(var(--size) * 1.05);border-right:8px solid var(--accent);padding-right:.6em;margin:.6em 0 1em;font-weight:800}
+.hint{font-size:16px;color:var(--muted);text-align:center;margin-top:30px;line-height:1.8}
+.guide{position:fixed;right:0;left:0;top:38vh;height:3px;background:var(--accent);opacity:.25;pointer-events:none;display:none}
+body.scrolling .guide{display:block}
+</style>
+</head>
+<body>
+<div class="bar">
+  <button id="minus" aria-label="تصغير الخط">A−</button>
+  <button id="plus" aria-label="تكبير الخط">A+</button>
+  <button id="play">▶ تمرير تلقائي</button>
+  <label>السرعة <input id="speed" type="range" min="10" max="120" value="40"></label>
+  <button id="theme">🌓</button>
+  <button id="top">↑ البداية</button>
+</div>
+<div class="guide"></div>
+<main id="text">
+  <h1>عبد الرحيم بوعبيد · ذاكرة اتحادية · الحلقة 02</h1>
+
+  <p>الدرهم اللي فجيبك اليوم… قبل <b>1959</b> ما كانش عندو وجود.</p>
+  <p>حتى من بعد الاستقلال، بقاو المغاربة كيتعاملو بالفرنك المرتبط بفرنسا، وبقا البنك المركزي فيه رساميل أجنبية.</p>
+  <p>يعني المغرب استقل سياسياً… ولكن الفلوس ديالو مازال ما كانتش كاملة بين يديه.</p>
+  <div class="gap"></div>
+
+  <p>واللي غادي يقلب هاد المعادلة، ما كان لا خبير اقتصادي ولا رجل مال وأعمال… بل كان رجل قانون ومحامي، سميتو <b>عبد الرحيم بوعبيد</b>.</p>
+  <div class="gap"></div>
+
+  <p>تزاد فمدينة <b>سلا</b>، وكان مناضل وطني، ومن الموقّعين على وثيقة المطالبة بالاستقلال سنة <b>1944</b>.</p>
+  <p>قرا الحقوق ومارس المحاماة، وما كانش متخصص فالشؤون المالية والنقدية.</p>
+  <p>ولكن كان فاهم واحد الحاجة اللي بزاف ديال الناس فداك الوقت ما كانوش واعيين بيها:</p>
+  <div class="gap"></div>
+
+  <p><b>ما كاينش استقلال سياسي بلا استقلال اقتصادي.</b></p>
+  <p>وملي ولّى نائب ديال رئيس الحكومة ووزير ديال الاقتصاد والمالية، فحكومة <b>عبد الله إبراهيم</b>، بدا كيطبّق هاد الفكرة.</p>
+  <div class="gap"></div>
+
+  <p>وفعام <b>1959</b>، وفظرف شهور قليلة، المغرب عرف تحوّل كبير.</p>
+  <p>فـ<b>30 يونيو</b>، صدر الظهير اللي تأسس بموجبو <b>بنك المغرب</b>، وبدأ الخدمة ففاتح يوليوز. وهادي كانت خطوة حاسمة، حيث البنك المركزي هو اللي كيشرف على إصدار العملة والسياسة النقدية ديال البلاد.</p>
+  <p>وفأكتوبر من نفس السنة، المغرب ولات عندو عملة وطنية ديالو: <b>الدرهم</b>، وتعزّز الاستقلال النقدي على فرنسا.</p>
+  <p>وفنفس العام، تأسس <b>صندوق الإيداع والتدبير</b>، باش مدخرات المغاربة تساهم فتنمية البلاد.</p>
+  <p>و<b>البنك الوطني للإنماء الاقتصادي</b>، باش يموّل الصناعة المغربية.</p>
+  <p>و<b>البنك المغربي للتجارة الخارجية</b>، باش يدعم التجارة ديال المغرب مع العالم.</p>
+  <div class="gap"></div>
+
+  <p>ولكن الإصلاحات ما وقفوش غير عند الفلوس.</p>
+  <p>تحطّات الأسس ديال مصفاة <b>سامير</b> فالمحمدية، وتأسس معمل <b>صوماكا</b> فالدار البيضاء، باش المغرب يبدا يبني الصناعة ديالو ويخلق فرص الشغل.</p>
+  <p>وفنفس الحكومة، تأسس <b>الصندوق الوطني للضمان الاجتماعي</b>، الـCNSS، وتوجد أول <b>مخطط خماسي</b> للتنمية.</p>
+  <div class="gap"></div>
+
+  <p>رجل قانون ومحامي… ساهم فأقل من عامين فوضع أسس مهمة للاقتصاد الوطني.</p>
+  <p>وهادشي ما كانش صدفة… <b>كانت رؤية.</b></p>
+  <p>فعام <b>1960</b>، تعفات الحكومة، ولكن مؤسسات بحال بنك المغرب وصندوق الإيداع والتدبير، بقات حتى لليوم من ركائز الاقتصاد المغربي.</p>
+  <div class="gap"></div>
+
+  <p>ومن بعد، واصل عبد الرحيم بوعبيد النضال السياسي ديالو، وساهم مع رفاقو فتأسيس <b>الاتحاد الوطني للقوات الشعبية</b>، قبل ما يتولى قيادة <b>الاتحاد الاشتراكي</b> سنة <b>1975</b>.</p>
+  <p>وفعام <b>1981</b>، تعتقل بسبب موقف سياسي مرتبط بقضية الصحراء المغربية، وقال فالمحكمة كلمتو الشهيرة اللي بقات راسخة فالتاريخ:</p>
+  <p class="quote">«ربّ السجن أحبّ إليّ من أن ألتزم الصمت وألا أقول رأيي في قضية مصيرية وطنية.»</p>
+  <div class="gap"></div>
+
+  <p>والمرة الجاية اللي تخرج فيها درهم من جيبك… تذكّر هاد الاسم: <b>عبد الرحيم بوعبيد.</b></p>
+
+  <div class="hint">اضغط على أي فقرة لتحديدها · مفتاح المسافة: تشغيل/إيقاف التمرير · السهمان ↑↓: السرعة · + / −: حجم الخط</div>
+</main>
+<script>
+const root = document.documentElement;
+const store = { get(k, d) { try { return localStorage.getItem(k) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+let size = +store.get('tp-size', window.innerWidth < 700 ? 30 : 44);
+const applySize = () => { root.style.setProperty('--size', size + 'px'); store.set('tp-size', size); };
+applySize();
+const th = store.get('tp-theme', ''); if (th) root.dataset.theme = th;
+document.getElementById('plus').onclick = () => { size = Math.min(96, size + 4); applySize(); };
+document.getElementById('minus').onclick = () => { size = Math.max(20, size - 4); applySize(); };
+document.getElementById('theme').onclick = () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark'; store.set('tp-theme', root.dataset.theme);
+};
+document.getElementById('top').onclick = () => { window.scrollTo(0, 0); stop(); };
+// tap a paragraph to mark where you are
+const ps = [...document.querySelectorAll('main p')];
+ps.forEach((p, i) => p.addEventListener('click', () => {
+  ps.forEach((q, j) => { q.classList.toggle('cur', j === i); q.classList.toggle('done', j < i); });
+}));
+// auto-scroll
+let playing = false, last = 0, acc = 0;
+const speedEl = document.getElementById('speed'), playBtn = document.getElementById('play');
+function frame(ts) {
+  if (!playing) return;
+  if (last) { acc += (ts - last) / 1000 * (+speedEl.value); const px = Math.floor(acc); if (px) { window.scrollBy(0, px); acc -= px; } }
+  last = ts;
+  // highlight the paragraph under the reading guide
+  const y = window.innerHeight * .38;
+  ps.forEach((p, i) => { const r = p.getBoundingClientRect(); const on = r.top <= y && r.bottom >= y; p.classList.toggle('cur', on); p.classList.toggle('done', r.bottom < y); });
+  requestAnimationFrame(frame);
+}
+function start() { playing = true; last = 0; playBtn.classList.add('on'); playBtn.textContent = '⏸ إيقاف'; document.body.classList.add('scrolling'); requestAnimationFrame(frame); }
+function stop() { playing = false; playBtn.classList.remove('on'); playBtn.textContent = '▶ تمرير تلقائي'; document.body.classList.remove('scrolling'); }
+playBtn.onclick = () => playing ? stop() : start();
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') { e.preventDefault(); playing ? stop() : start(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); speedEl.value = +speedEl.value + 5; }
+  else if (e.key === 'ArrowDown') { e.preventDefault(); speedEl.value = +speedEl.value - 5; }
+  else if (e.key === '+' || e.key === '=') { size = Math.min(96, size + 4); applySize(); }
+  else if (e.key === '-') { size = Math.max(20, size - 4); applySize(); }
+});
+</script>
+</body>
+</html>
