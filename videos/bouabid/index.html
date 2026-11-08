@@ -43,7 +43,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
 .stamp{color:var(--red);border:7px solid var(--red);border-radius:14px;font-family:Kufi;font-weight:700;padding:4px 34px 14px;filter:url(#stampf);white-space:nowrap}
 .type{font-family:Type,Cairo,monospace}
 .coinbox{position:absolute;width:600px;height:600px}
-.coinbox svg{width:100%;height:100%;display:block}
+.coinbox svg,.coinbox img{width:100%;height:100%;display:block}
 
 #grain{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:.35}
 #vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.65) 100%)}
@@ -53,6 +53,8 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
 #progress{position:absolute;bottom:0;right:0;height:8px;background:var(--red)}
 #flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
 
+.photo-print{background-size:cover;background-position:center 30%;filter:grayscale(1) contrast(1.12) sepia(.3) brightness(.97);position:relative}
+.photo-print::after{content:"";position:absolute;inset:0;background-image:var(--dots);background-size:6px 6px;opacity:.12;mix-blend-mode:multiply}
 /* S1 coin + banknote */
 #s1q{top:250px}#s1q .paper{font-size:80px}
 #s1stamp{top:800px}#s1stamp .stamp{font-size:66px;background:rgba(221,211,189,.0)}
@@ -93,14 +95,18 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
 #s4c{top:1450px}#s4c .paper{font-size:48px}
 
 /* S5 vision */
-#s5a{top:470px}#s5a .paper{font-size:80px}
-#s5b{top:650px}#s5b .paper{font-size:80px}
-#s5card{top:960px}
+#s5a{top:240px}#s5a .paper{font-size:76px}
+#s5b{top:410px}#s5b .paper{font-size:76px}
+#s5ph{top:590px}#s5ph .paper{padding:18px 18px 14px}
+#s5ph .pp{width:740px;height:485px;background-size:cover;background-position:center}
+#s5ph .tagx{position:absolute;left:-26px;bottom:40px}
+#s5ph .tagx .paper{font-size:34px;padding:4px 20px 10px}
+#s5card{top:1170px}
 #s5card .paper{padding:30px 60px 40px;text-align:center}
 #s5card .l1{font-family:Kufi;font-weight:700;font-size:62px}
 #s5card .l2{font-size:46px;font-weight:700}
 #s5card .l3{font-size:34px;font-weight:700;color:var(--red);margin-top:6px}
-#s5date{top:1360px}#s5date .stamp{font-size:58px}
+#s5date{top:1500px}#s5date .stamp{font-size:58px}
 
 /* S6 board */
 #board{position:absolute;left:0;top:0;width:1080px;height:3400px}
@@ -113,6 +119,9 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
 .card .dt{font-size:32px;font-weight:700;color:var(--red)}
 .card .tt{font-family:Kufi;font-weight:700;font-size:72px;line-height:1.15}
 .card .tt.sm{font-size:60px}
+.card .lg{position:absolute;left:30px;top:26px;height:130px}
+.card .lg.bam{filter:brightness(0) opacity(.85)}
+.card.haslogo .tt,.card.haslogo .dt{margin-left:200px}
 .why{position:absolute;right:30px;top:100%;margin-top:-22px;max-width:700px}
 .why .paper{padding:10px 28px 18px;font-size:36px;font-weight:700;line-height:1.35}
 .why b{display:inline-block;background:var(--cream);color:var(--red);font-family:Kufi;padding:0 12px 6px;margin-left:10px;transform:rotate(-3deg)}
@@ -175,9 +184,11 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
 #s10g{top:1450px}#s10g .paper{font-size:62px}
 
 /* S11 outro */
-#s11q{top:440px}
-#s11q .paper{font-family:Amiri;font-weight:700;font-size:76px;line-height:1.45;text-align:center;padding:40px 70px 56px}
-#s11attr{top:1040px}#s11attr .paper{font-size:40px}
+#s11ph{top:120px}#s11ph .paper{padding:16px 16px 12px}#s11ph .pp{width:680px;height:411px;background-size:cover;background-position:center}
+#s11q{top:620px}
+#s11q .paper{font-family:Amiri;font-weight:700;font-size:68px;line-height:1.42;text-align:center;padding:34px 64px 50px}
+#s11attr{top:1150px}
+#s11usfp{top:1290px}#s11usfp .paper{padding:18px 30px 14px}#s11usfp img{display:block;height:130px}#s11attr .paper{font-size:40px}
 #s11seal{left:330px;top:360px;width:420px;height:420px}
 #s11seal .paper{width:420px;height:420px;display:flex;align-items:center;justify-content:center}
 #s11seal .ring{position:absolute;inset:34px;border-radius:50%;border:8px solid var(--red);filter:url(#stampf)}
@@ -238,9 +249,9 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
       <div class="nt">FRANCS</div><div class="ns">BILLET DE BANQUE</div>
     </div></div></div></div>
     <div class="abs" id="s1paris"><div class="stamp">باريس</div></div>
-    <div class="coinbox" id="coinA" style="left:240px;top:560px"><div class="shd"><svg viewBox="0 0 600 600"><use href="#coin"/></svg></div></div>
-    <div class="coinbox" id="coinL" style="left:240px;top:560px"><div class="shd"><svg viewBox="0 0 600 600"><use href="#coin"/></svg></div></div>
-    <div class="coinbox" id="coinR" style="left:240px;top:560px"><div class="shd"><svg viewBox="0 0 600 600"><use href="#coin"/></svg></div></div>
+    <div class="coinbox" id="coinA" style="left:240px;top:560px"><div class="shd"><img src="assets/coin_reverse.png" alt=""></div></div>
+    <div class="coinbox" id="coinL" style="left:240px;top:560px"><div class="shd"><img src="assets/coin_reverse.png" alt=""></div></div>
+    <div class="coinbox" id="coinR" style="left:240px;top:560px"><div class="shd"><img src="assets/coin_reverse.png" alt=""></div></div>
     <div class="row" id="s1q"><div class="shd"><div class="paper strip torn ink" data-seed="2" data-edges="tb">الدرهم اللي فجيبك</div></div></div>
     <div class="row" id="s1stamp"><div class="stamp">غير موجود قبل 1959</div></div>
     <div class="row" id="s1top"><div class="shd"><div class="paper strip news torn ink" data-seed="3" data-edges="tb">الفرنك المربوط بفرانسا</div></div></div>
@@ -268,8 +279,8 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
   <div class="scene" id="S4">
     <div class="row" id="s4clip"><div class="shd">
       <div class="paper news torn" data-seed="21" data-amp="9">
-        <svg class="ph" viewBox="0 0 488 500" style="display:block"><use href="#sil"/></svg>
-        <div class="cap ink"><span>عبد الرحيم بوعبيد</span><span style="opacity:.7">[ صورة أرشيفية ]</span></div>
+        <div class="ph photo-print" style="background-image:url(assets/bouabid_portrait.jpg)"></div>
+        <div class="cap ink"><span>عبد الرحيم بوعبيد</span><span style="opacity:.7">أرشيف</span></div>
       </div>
       <div class="tape" style="top:-18px;right:-40px;transform:rotate(28deg)"></div>
       <div class="tape" style="top:-18px;left:-40px;transform:rotate(-30deg)"></div>
@@ -285,6 +296,11 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
   <div class="scene" id="S5">
     <div class="row" id="s5a"><div class="shd"><div class="paper red strip torn ink" data-seed="31" data-edges="tb">ما كاينش استقلال سياسي</div></div></div>
     <div class="row" id="s5b"><div class="shd"><div class="paper strip torn ink" data-seed="32" data-edges="tb">بلا استقلال اقتصادي</div></div></div>
+    <div class="row" id="s5ph"><div class="shd">
+      <div class="paper news torn" data-seed="34" data-amp="7"><div class="pp photo-print" style="background-image:url(assets/bouabid_tetouan_1957.jpg)"></div></div>
+      <div class="tape" style="top:-16px;right:60px;transform:rotate(6deg)"></div>
+      <div class="tagx"><div class="shd"><div class="paper red tag torn" data-seed="35" data-amp="4">الوزير فتطوان · 1957</div></div></div>
+    </div></div>
     <div class="row" id="s5card"><div class="shd"><div class="paper news torn ink" data-seed="33" data-amp="6">
       <div class="l1">نائب رئيس الحكومة</div><div class="l2">وزير الاقتصاد الوطني والمالية</div><div class="l3">حكومة عبد الله إبراهيم</div>
     </div></div></div>
@@ -305,11 +321,11 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
       <div class="abs" id="cal59"><div class="shd"><div class="top">عام</div><div class="paper torn ink" data-seed="40" data-edges="b">1959</div></div></div>
       <div class="row" id="s6s"><div class="shd"><div class="paper strip torn ink" data-seed="41" data-edges="tb">فشهورة قلال… تبدّل كلشي</div></div></div>
 
-      <div class="card" id="ca" style="right:60px;top:860px"><div class="shd"><div class="paper news torn ink" data-seed="42"><div class="dt">30 يونيو 1959</div><div class="tt">بنك المغرب</div></div></div>
+      <div class="card haslogo" id="ca" style="right:60px;top:860px"><div class="shd"><div class="paper news torn" data-seed="42"><img class="lg bam" src="assets/logo_bam.png" alt=""><div class="dt">30 يونيو 1959</div><div class="tt">بنك المغرب</div></div></div>
         <div class="why"><div class="shd"><div class="paper red torn ink" data-seed="43" data-amp="4"><b>علاش؟</b>اللي كيتحكم فالبنك المركزي، كيتحكم فالفلوس ديال البلاد</div></div></div></div>
       <div class="card" id="cb" style="left:60px;top:1340px"><div class="shd"><div class="paper torn ink" data-seed="44"><div class="dt">أكتوبر 1959</div><div class="tt">الدرهم</div></div></div>
         <div class="why"><div class="shd"><div class="paper red torn ink" data-seed="45" data-amp="4"><b>علاش؟</b>القرار المالي رجع للرباط… ماشي لباريس</div></div></div></div>
-      <div class="card" id="cc" style="right:60px;top:1820px"><div class="shd"><div class="paper news torn ink" data-seed="46"><div class="dt">1959</div><div class="tt sm">صندوق الإيداع والتدبير</div></div></div>
+      <div class="card haslogo" id="cc" style="right:60px;top:1820px"><div class="shd"><div class="paper news torn" data-seed="46"><img class="lg" src="assets/logo_cdg.png" alt="" style="height:110px;top:40px"><div class="dt">1959</div><div class="tt sm">صندوق الإيداع والتدبير</div></div></div>
         <div class="why"><div class="shd"><div class="paper red torn ink" data-seed="47" data-amp="4"><b>علاش؟</b>مدخرات المغاربة كتخدم البلاد ديالهم</div></div></div></div>
       <div class="card" id="cd" style="left:60px;top:2260px"><div class="shd"><div class="paper torn ink" data-seed="48"><div class="dt">1959</div><div class="tt sm">البنك الوطني للإنماء الاقتصادي</div></div></div>
         <div class="why"><div class="shd"><div class="paper red torn ink" data-seed="49" data-amp="4"><b>علاش؟</b>تمويل الصناعة الوطنية</div></div></div></div>
@@ -397,9 +413,9 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
       <svg class="abs" id="s10svg" width="1080" height="1920" viewBox="0 0 1080 1920">
         <path id="s10th" fill="none" stroke="#b3142a" stroke-width="5" stroke-linecap="round" style="filter:drop-shadow(0 6px 4px rgba(0,0,0,.5))"/>
       </svg>
-      <div class="k" id="k1" style="left:90px;top:230px"><div class="shd"><div class="paper news torn ink" data-seed="91">بنك المغرب</div></div></div>
+      <div class="k" id="k1" style="left:90px;top:230px"><div class="shd"><div class="paper news torn ink" data-seed="91"><img src="assets/logo_bam.png" alt="" style="height:60px;vertical-align:middle;margin-left:14px;filter:brightness(0) opacity(.85)">بنك المغرب</div></div></div>
       <div class="k" id="k2" style="left:640px;top:200px"><div class="shd"><div class="paper torn ink" data-seed="92">الدرهم</div></div></div>
-      <div class="k" id="k3" style="left:60px;top:520px"><div class="shd"><div class="paper torn ink" data-seed="93">صندوق الإيداع والتدبير</div></div></div>
+      <div class="k" id="k3" style="left:60px;top:520px"><div class="shd"><div class="paper torn ink" data-seed="93"><img src="assets/logo_cdg.png" alt="" style="height:52px;vertical-align:middle;margin-left:14px">صندوق الإيداع والتدبير</div></div></div>
       <div class="k" id="k4" style="left:700px;top:560px"><div class="shd"><div class="paper news torn ink" data-seed="94">سامير</div></div></div>
       <div class="k" id="k5" style="left:110px;top:1330px"><div class="shd"><div class="paper news torn ink" data-seed="95">صوماكا</div></div></div>
       <div class="k" id="k6" style="left:690px;top:1310px"><div class="shd"><div class="paper torn ink" data-seed="96">CNSS</div></div></div>
@@ -409,7 +425,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
       <div class="row" id="s10C"><div class="shd"><div class="paper red strip torn ink" data-seed="100" data-edges="tblr">ماشي صدفة… هادي رؤية</div></div></div>
       <div class="row" id="s10stamp"><div class="stamp">إعفاء الحكومة · 1960</div></div>
     </div>
-    <div class="coinbox" id="s10coin"><div class="shd"><svg viewBox="0 0 600 600"><use href="#coin"/></svg></div></div>
+    <div class="coinbox" id="s10coin"><div class="shd"><img src="assets/coin_reverse.png" alt=""></div></div>
     <div class="row" id="s10d"><div class="shd"><div class="paper news tag torn ink" data-seed="101" data-amp="5">بنك المغرب · صندوق الإيداع والتدبير</div></div></div>
     <div class="row" id="s10e"><div class="shd"><div class="paper red tag torn ink" data-seed="102" data-amp="4">باقيين حتى لليوم</div></div></div>
     <div class="row" id="s10f"><div class="shd"><div class="paper strip torn ink" data-seed="103" data-edges="tb">عقل على هاد السمية</div></div></div>
@@ -418,9 +434,11 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
 
   <!-- S11: quote + outro -->
   <div class="scene" id="S11">
+    <div class="row" id="s11ph"><div class="shd"><div class="paper news torn" data-seed="110" data-amp="6"><div class="pp photo-print" style="background-image:url(assets/bouabid_congress.jpg)"></div></div></div></div>
     <div class="row" id="s11q"><div class="shd"><div class="paper red torn ink" data-seed="111" data-amp="8">«ربّ السجن أحبّ إليّ<br>من أن ألزم الصمت<br>ولا أقول رأيي<br>في قضية وطنية مصيرية»</div></div></div>
     <div class="row" id="s11attr"><div class="shd"><div class="paper news tag torn ink" data-seed="112" data-amp="4">عبد الرحيم بوعبيد · 1981</div></div></div>
-    <div class="coinbox" id="s11seal"><div class="shd"><div class="paper torn" data-circle="1" data-seed="113" data-amp="3"><div class="ring"></div><div class="ring2"></div><div class="m">ش</div></div></div></div>
+    <div class="row" id="s11usfp"><div class="shd"><div class="paper torn" data-seed="117" data-amp="5"><img src="assets/logo_usfp.png" alt=""></div></div></div>
+    <div class="coinbox" id="s11seal"><div class="shd"><div class="paper torn" data-circle="1" data-seed="113" data-amp="3"><div class="ring"></div><div class="ring2"></div><img class="m" src="assets/logo_chabiba_rose.png" alt="" style="width:250px;height:auto;padding:0;filter:none"></div></div></div>
     <div class="row" id="s11a"><div class="shd"><div class="paper strip torn ink" data-seed="114" data-edges="tb">الشبيبة الاتحادية</div></div></div>
     <div class="row" id="s11b"><div class="shd"><div class="paper news tag torn ink" data-seed="115" data-amp="5">المكتب الإقليمي · تطوان</div></div></div>
     <div class="row" id="s11btn"><div class="shd"><div class="paper red torn ink" data-seed="116" data-amp="6">تابعونا</div></div></div>
@@ -512,6 +530,10 @@ async function doPrepare() {
   document.querySelectorAll('.scene').forEach(s => s.style.display = 'block');
   await new Promise(r => requestAnimationFrame(r));
   await document.fonts.ready;
+  // wait for every <img> and CSS background photo before measuring
+  const bg = [...document.querySelectorAll('[style*="background-image"]')].map(e => e.style.backgroundImage.slice(5, -2));
+  await Promise.all([...[...document.images].map(i => i.decode().catch(() => {})),
+    ...bg.map(u => { const i = new Image(); i.src = u; return i.decode().catch(() => {}); })]);
   await new Promise(r => requestAnimationFrame(r));
   document.querySelectorAll('.torn').forEach((el, i) => {
     const seed = +el.dataset.seed || i + 1;
@@ -609,8 +631,9 @@ window.render = function (t) {
   if (t >= 28.9 && t < 36.2) {
     slide('s5a', t, 29.2, -1.5, 1);
     slide('s5b', t, 30.1, 1.5, -1);
-    drop('s5card', t, 32.0, -1.5, .55);
-    slam('s5date', t, 33.6, -4);
+    drop('s5ph', t, 30.9, 2, .6);
+    drop('s5card', t, 32.4, -1.5, .55);
+    slam('s5date', t, 33.8, -4);
     exitAll('S5', t, 35.6, .6, 'up');
   }
 
@@ -695,9 +718,11 @@ window.render = function (t) {
 
   /* S11: quote + outro 100.9–110 */
   if (t >= 100.9) {
-    drop('s11q', t, 101.2, -1.5, .6);
-    drop('s11attr', t, 102.4, 2, .4);
-    if (t > 105.0) { const o = eio(P(t, 105.0, 105.6)); ['s11q', 's11attr'].forEach(id => { $(id).style.opacity = 1 - o; $(id).style.transform += ` translateY(${-o * 300}px)`; }); }
+    drop('s11ph', t, 101.05, 2, .55);
+    drop('s11q', t, 101.6, -1.5, .6);
+    drop('s11attr', t, 102.6, 2, .4);
+    drop('s11usfp', t, 103.2, -1.5, .45);
+    if (t > 105.0) { const o = eio(P(t, 105.0, 105.6)); ['s11ph', 's11q', 's11attr', 's11usfp'].forEach(id => { $(id).style.opacity = 1 - o; $(id).style.transform += ` translateY(${-o * 300}px)`; }); }
     const k = eo(P(t, 105.5, 106.2));
     st('s11seal', { o: P(t, 105.5, 105.6), s: lerp(1.6, 1, k), r: lerp(-120, -6, k) });
     lift('s11seal', 1 - k);
