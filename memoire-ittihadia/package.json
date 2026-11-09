@@ -1,0 +1,14 @@
+{
+  "name": "memoire-ittihadia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ذاكرة اتحادية — motion-graphics episodes (paper collage) rendered from HTML",
+  "scripts": {
+    "setup": "npx playwright install chromium",
+    "ep01": "node build.js ep01",
+    "ep02": "node build.js ep02"
+  },
+  "dependencies": {
+    "playwright": "1.63.0"
+  }
+}

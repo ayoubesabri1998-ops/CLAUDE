@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <title>المهدي بن بركة — نسخة تجريبية</title>
 <style>
-@font-face{font-family:Kufi;font-weight:700;src:url(node_modules/@fontsource/reem-kufi/files/reem-kufi-arabic-700-normal.woff2)}
-@font-face{font-family:Kufi;font-weight:500;src:url(node_modules/@fontsource/reem-kufi/files/reem-kufi-arabic-500-normal.woff2)}
-@font-face{font-family:Kufi;font-weight:700;src:url(node_modules/@fontsource/reem-kufi/files/reem-kufi-latin-700-normal.woff2);unicode-range:U+0000-00FF}
-@font-face{font-family:Kufi;font-weight:500;src:url(node_modules/@fontsource/reem-kufi/files/reem-kufi-latin-500-normal.woff2);unicode-range:U+0000-00FF}
-@font-face{font-family:Cairo;font-weight:400;src:url(node_modules/@fontsource/cairo/files/cairo-arabic-400-normal.woff2)}
-@font-face{font-family:Cairo;font-weight:700;src:url(node_modules/@fontsource/cairo/files/cairo-arabic-700-normal.woff2)}
-@font-face{font-family:Cairo;font-weight:400;src:url(node_modules/@fontsource/cairo/files/cairo-latin-400-normal.woff2);unicode-range:U+0000-00FF}
-@font-face{font-family:Cairo;font-weight:700;src:url(node_modules/@fontsource/cairo/files/cairo-latin-700-normal.woff2);unicode-range:U+0000-00FF}
-@font-face{font-family:Amiri;font-weight:700;src:url(node_modules/@fontsource/amiri/files/amiri-arabic-700-normal.woff2)}
-@font-face{font-family:Amiri;font-weight:400;src:url(node_modules/@fontsource/amiri/files/amiri-arabic-400-normal.woff2)}
-@font-face{font-family:Type;font-weight:400;src:url(node_modules/@fontsource/special-elite/files/special-elite-latin-400-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:Kufi;font-weight:700;src:url(../shared/fonts/reem-kufi-arabic-700-normal.woff2)}
+@font-face{font-family:Kufi;font-weight:500;src:url(../shared/fonts/reem-kufi-arabic-500-normal.woff2)}
+@font-face{font-family:Kufi;font-weight:700;src:url(../shared/fonts/reem-kufi-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:Kufi;font-weight:500;src:url(../shared/fonts/reem-kufi-latin-500-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:Cairo;font-weight:400;src:url(../shared/fonts/cairo-arabic-400-normal.woff2)}
+@font-face{font-family:Cairo;font-weight:700;src:url(../shared/fonts/cairo-arabic-700-normal.woff2)}
+@font-face{font-family:Cairo;font-weight:400;src:url(../shared/fonts/cairo-latin-400-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:Cairo;font-weight:700;src:url(../shared/fonts/cairo-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:Amiri;font-weight:700;src:url(../shared/fonts/amiri-arabic-700-normal.woff2)}
+@font-face{font-family:Amiri;font-weight:400;src:url(../shared/fonts/amiri-arabic-400-normal.woff2)}
+@font-face{font-family:Type;font-weight:400;src:url(../shared/fonts/special-elite-latin-400-normal.woff2);unicode-range:U+0000-00FF}
 
 :root{
   --ink:#1d1813;--red:#b3142a;--cream:#efe5cc;--news:#ddd3bd;--gold:#cfa75e;
@@ -159,7 +159,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#15110e}
 #s7c{top:1500px;color:var(--cream);font-size:38px;opacity:.8}
 </style>
 </head>
-<body>
+<body data-preview-audio="audio/preview_mix.m4a">
 <svg width="0" height="0" style="position:absolute">
   <filter id="ink" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5"/></filter>
   <filter id="stampf" x="-5%" y="-5%" width="110%" height="110%">
@@ -574,5 +574,6 @@ window.render = function (t) {
 };
 prepare().then(() => render(0));
 </script>
+<script src="../shared/preview.js"></script>
 </body>
 </html>
