@@ -70,6 +70,7 @@ REMOVE = [(0, FIRST_WORD - .25),       # lead-in
           (131.40, 136.40),            # stumbled first take of "ولكن الإصلاحات ما وقفوش…"
           (151.50, 155.00),            # aborted first take of "وفنفس الحكومة تأسس الصندوق…"
           (185.30, 212.90),            # 2 aborted takes of "ومن بعد واصل عبد الرحيم بوعبيد…"
+          (221.50, 227.20),            # «قبل ما يتولى قيادة الاتحاد الاشتراكي سنة 1975» — wrong connector, cut per feedback
           (226.00, 231.60),            # aborted first take of "وفعام 1981 تعتقل بسبب…"
           (243.28, 251.20),            # aborted first take of the quote
           (W[-1]['e'] + .25, 1e9)]     # anything after the last word
@@ -90,7 +91,7 @@ keep = _m
 def wstart(token, near, tol=4):
     c = [wd for wd in W if token in wd['w'] and abs(wd['s'] - near) < tol]
     return min(c, key=lambda wd: abs(wd['s'] - near))
-PARAGRAPHS = [35.24, 45.92, 66.62, 78.66, 131.66, 165.36, 212.98, 259.04]   # raw starts of paragraph openers
+PARAGRAPHS = [35.24, 45.92, 66.62, 78.66, 131.66, 165.36, 212.98, 232.5, 259.04]   # raw starts of paragraph openers
 NAME1 = wstart('عبد', 44.9)['s']
 def new_gap(g, nxt_start, prev_end):
     if any(prev_end - .2 <= p <= nxt_start + .3 for p in PARAGRAPHS): return .48
@@ -144,7 +145,7 @@ anchors = [
     ('cnss', 75, A('وفي', 150.9)), ('plan', 82, A('وتوجد', 162.5)),
     ('synth', 88, A('رجل', 165.4)), ('vision2', 91.6, A('صدفة', 173)), ('y1960', 94.4, A('تفات', 176.5)),
     ('legacy', 95.8, A('ولكن', 178)), ('struggle', 98, A('ومن', 213)), ('unfp', 100.0, A('وساهم', 217.5)),
-    ('usfp', 102.6, A('قبل', 221.3)), ('y1981', 108, A('وفي', 226.3)), ('position', 109.4, raw2edit(236.0)),
+    ('y1981', 108, A('وفي', 226.3)), ('position', 109.4, raw2edit(236.0)),
     ('court', 110.9, A('وقال', 238.8)), ('quote', 111.6, A('ربي', 251.3)),
     ('callback', 118, A('والمرة', 259.1)), ('remember', 119.4, A('تذكر', 263)), ('name2', 120.6, A('عبد', 264.8)),
 ]
