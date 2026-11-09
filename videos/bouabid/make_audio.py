@@ -54,6 +54,7 @@ def boom(at, gain=1.0):
     L[i:i + m] += s[:m]; R[i:i + m] += s[:m]
 
 def whoosh(end, length=.7, gain=.35):
+    if '--no-whoosh' in sys.argv: return   # removed per feedback
     n = int(length * SR); tt = np.linspace(0, 1, n)
     x = lowpass(rng.standard_normal(n), 1800) * (tt ** 2.5) * gain * 3
     i = int((end - length) * SR)

@@ -68,7 +68,9 @@ islands = [[a * .01, b * .01] for a, b in grown]
 # ---- 3. remove dead air + retakes (raw seconds, from the transcript) ----------------
 REMOVE = [(0, FIRST_WORD - .25),       # lead-in
           (131.40, 136.40),            # stumbled first take of "ولكن الإصلاحات ما وقفوش…"
+          (151.50, 155.00),            # aborted first take of "وفنفس الحكومة تأسس الصندوق…"
           (185.30, 212.90),            # 2 aborted takes of "ومن بعد واصل عبد الرحيم بوعبيد…"
+          (226.00, 231.60),            # aborted first take of "وفعام 1981 تعتقل بسبب…"
           (243.28, 251.20),            # aborted first take of the quote
           (W[-1]['e'] + .25, 1e9)]     # anything after the last word
 def removed(t): return any(a <= t < b for a, b in REMOVE)
@@ -142,7 +144,7 @@ anchors = [
     ('cnss', 75, A('وفي', 150.9)), ('plan', 82, A('وتوجد', 162.5)),
     ('synth', 88, A('رجل', 165.4)), ('vision2', 91.6, A('صدفة', 173)), ('y1960', 94.4, A('تفات', 176.5)),
     ('legacy', 95.8, A('ولكن', 178)), ('struggle', 98, A('ومن', 213)), ('unfp', 100.0, A('وساهم', 217.5)),
-    ('usfp', 102.6, A('قبل', 221.3)), ('y1981', 108, A('وفي', 226.3)), ('position', 109.4, A('موقف', 231)),
+    ('usfp', 102.6, A('قبل', 221.3)), ('y1981', 108, A('وفي', 226.3)), ('position', 109.4, raw2edit(236.0)),
     ('court', 110.9, A('وقال', 238.8)), ('quote', 111.6, A('ربي', 251.3)),
     ('callback', 118, A('والمرة', 259.1)), ('remember', 119.4, A('تذكر', 263)), ('name2', 120.6, A('عبد', 264.8)),
 ]
